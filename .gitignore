@@ -30,4 +30,6 @@ configs/**/tls_ca.crt
 
 # Backup automation runtime artifacts
 .backup.lock
+.backup-tag.lock
 backup-cron.log
+backup-weekly.log
