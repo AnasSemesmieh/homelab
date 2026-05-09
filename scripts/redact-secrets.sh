@@ -28,4 +28,14 @@ for f in \
   fi
 done
 
+# Redact known sensitive Plex attributes if present.
+plex_prefs="${TARGET}/plex/config/Library/Application Support/Plex Media Server/Preferences.xml"
+if [[ -f "${plex_prefs}" ]]; then
+  sed -Ei \
+    -e 's#(PlexOnlineToken=")[^"]*(")#\1REDACTED\2#g' \
+    -e 's#(PlexOnlineMail=")[^"]*(")#\1REDACTED\2#g' \
+    -e 's#(PlexOnlineUsername=")[^"]*(")#\1REDACTED\2#g' \
+    "$plex_prefs"
+fi
+
 echo "Redaction complete"

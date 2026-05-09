@@ -10,6 +10,7 @@ matches="$(
   {
     grep -RInE '(password|passwd|api[_-]?key|token|secret|client_secret|passkey)[[:space:]]*[:=][[:space:]]*[^#[:space:]]+' "${TARGET}" || true
     grep -RInE '(tskey-api-|ptr_|cfat_)' "${TARGET}" || true
+    grep -RInE '(PlexOnlineToken|PlexOnlineMail|PlexOnlineUsername)="[^"]+"' "${TARGET}" || true
   } | grep -vE 'REDACTED|\{\{[[:space:]]*\.Config\.' || true
 )"
 
