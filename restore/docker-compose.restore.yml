@@ -1,0 +1,13 @@
+services:
+  restore-configs:
+    image: alpine:3.20
+    user: "0:0"
+    working_dir: /repo
+    command: ["/bin/sh", "/repo/restore/apply-configs.sh"]
+    environment:
+      TARGET_HOME: ${TARGET_HOME:-/home/anas}
+      DRY_RUN: ${DRY_RUN:-true}
+      OVERWRITE: ${OVERWRITE:-false}
+    volumes:
+      - ..:/repo:ro
+      - /:/host

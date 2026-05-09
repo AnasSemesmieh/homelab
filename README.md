@@ -19,6 +19,8 @@ It intentionally excludes runtime state, logs, media, databases, and raw secrets
 - `scripts/scan-secrets.sh`: scans tracked files for high-risk secret patterns
 - `scripts/backup-and-push.sh`: end-to-end daily automation (sync, redact, scan, commit, pull-rebase, push)
 - `scripts/weekly-tag.sh`: weekly snapshot tag automation (runs backup job, creates/pushes dated tag)
+- `restore/docker-compose.restore.yml`: one-shot restore compose stack for applying tracked configs to a new machine
+- `restore/apply-configs.sh`: restore helper used by the restore compose stack
 - `docs/RESTORE.md`: disaster recovery checklist
 - `configs/`: sanitized snapshot for version control
 
@@ -189,6 +191,24 @@ Use this flow when rebuilding after host failure or major corruption.
 8. Re-enable schedules if needed:
    - `crontab -l`
    - Ensure both daily and weekly entries exist.
+
+### Compose-Based Restore Helper
+
+From a new machine after cloning this repository:
+
+1. Dry run (recommended first):
+   - `cd /home/anas/homelab-backup/restore`
+   - `docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=true restore-configs`
+
+2. Apply restore without overwriting existing files:
+   - `docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=false -e OVERWRITE=false restore-configs`
+
+3. Apply restore and overwrite existing files:
+   - `docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=false -e OVERWRITE=true restore-configs`
+
+Optional target home override:
+
+- `docker compose -f docker-compose.restore.yml run --rm -e TARGET_HOME=/home/otheruser -e DRY_RUN=true restore-configs`
 
 ## Daily Automation
 

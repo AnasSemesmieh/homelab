@@ -19,6 +19,25 @@ This document describes a practical restore flow for this homelab from this repo
 - Copy curated files from `configs/` into active homelab paths under `/home/anas`.
 - Verify ownership/permissions for app config directories.
 
+### Option A: Use restore compose stack (recommended)
+
+From `/home/anas/homelab-backup/restore`:
+
+1. Preview operations (no writes):
+	- `docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=true restore-configs`
+2. Apply without overwriting existing files:
+	- `docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=false -e OVERWRITE=false restore-configs`
+3. Apply and overwrite existing files:
+	- `docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=false -e OVERWRITE=true restore-configs`
+
+Optional: target a different home directory:
+
+- `docker compose -f docker-compose.restore.yml run --rm -e TARGET_HOME=/home/otheruser -e DRY_RUN=true restore-configs`
+
+### Option B: Manual file copy
+
+- If you prefer manual restore, copy selected files from `configs/` to active runtime paths.
+
 ## 4. Bring up infrastructure first
 
 - Start reverse proxy and DNS-related stacks first (Traefik/Pi-hole, etc.).
