@@ -27,3 +27,7 @@ configs/**/tls_ca.crt
 # Editor/system
 .DS_Store
 .vscode/
+
+# Backup automation runtime artifacts
+.backup.lock
+backup-cron.log
