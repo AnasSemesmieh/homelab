@@ -22,6 +22,100 @@ It intentionally excludes runtime state, logs, media, databases, and raw secrets
 - `docs/RESTORE.md`: disaster recovery checklist
 - `configs/`: sanitized snapshot for version control
 
+## Sample Backup Snapshot
+
+Example of what an automated snapshot looks like in this repository:
+
+```text
+homelab-backup/
+   configs/
+      arrstack/
+         docker-compose.yml
+         setup-folders.sh
+         gluetun/servers.json
+      homeassistant/
+         docker-compose.yml
+         config/
+            configuration.yaml
+            automations.yaml
+            scenes.yaml
+            scripts.yaml
+      homepage/
+         docker-compose.yaml
+         config/
+            services.yaml
+            bookmarks.yaml
+            settings.yaml
+            widgets.yaml
+            custom.css
+            custom.js
+      immich/
+         docker-compose.yml
+         hwaccel.ml.yml
+         hwaccel.transcoding.yml
+      pihole/
+         docker-compose.yml
+         etc-pihole/pihole.toml
+      tautulli/
+         docker-compose.yaml
+         config/config.ini
+      traefik/
+         docker-compose.yml
+         dynamic/
+            cockpit.yaml
+            homelab-services.yaml
+            nas.yaml
+            plex.yaml
+            tls.yaml
+```
+
+## Backup Apps and Folders
+
+The backup automation currently captures these source-of-truth areas:
+
+- Host bootstrap
+   - `setup-repo.sh`
+- Arr stack
+   - `arrstack/docker-compose.yml`
+   - `arrstack/setup-folders.sh`
+   - `arrstack/gluetun/servers.json`
+- Home Assistant
+   - `homeassistant/docker-compose.yml`
+   - `homeassistant/config/configuration.yaml`
+   - `homeassistant/config/automations.yaml`
+   - `homeassistant/config/scenes.yaml`
+   - `homeassistant/config/scripts.yaml`
+- Homepage
+   - `homepage/docker-compose.yaml`
+   - `homepage/config/services.yaml`
+   - `homepage/config/bookmarks.yaml`
+   - `homepage/config/settings.yaml`
+   - `homepage/config/widgets.yaml`
+   - `homepage/config/custom.css`
+   - `homepage/config/custom.js`
+   - `homepage/config/docker.yaml`
+   - `homepage/config/kubernetes.yaml`
+   - `homepage/config/proxmox.yaml`
+- Immich
+   - `immich/docker-compose.yml`
+   - `immich/hwaccel.ml.yml`
+   - `immich/hwaccel.transcoding.yml`
+- Pi-hole
+   - `pihole/docker-compose.yml`
+   - `pihole/etc-pihole/pihole.toml`
+- Tautulli
+   - `tautulli/docker-compose.yaml`
+   - `tautulli/config/config.ini`
+- Traefik
+   - `traefik/docker-compose.yml`
+   - `traefik/dynamic/cockpit.yaml`
+   - `traefik/dynamic/homelab-services.yaml`
+   - `traefik/dynamic/nas.yaml`
+   - `traefik/dynamic/plex.yaml`
+   - `traefik/dynamic/tls.yaml`
+
+Anything not in `inventory/include-paths.txt` is not synced into the backup snapshot.
+
 ## Workflow
 
 1. Sync current files:
