@@ -1,0 +1,66 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/info-widgets/
+
+- greeting:
+    text_size: xl
+    text: Hi Anas, welcome back home!
+
+# - search:
+#     provider: google # google, duckduckgo, bing, baidu, brave or custom
+#     focus: true # Optional, will set focus to the search bar on page load
+#     showSearchSuggestions: true # Optional, will show search suggestions. Defaults to false
+#     target: _blank # One of _self, _blank, _parent or _top
+
+- datetime:
+    text_size: xl #Valid text sizes are 4xl, 3xl, 2xl, xl, md, sm, xs.
+    # 4 januari 2023 om 13:51:25 PST
+# 4 januari 2023 om 13:51:25 PST
+    locale: au
+    format:
+        dateStyle: long
+        timeStyle: long
+
+- openmeteo:
+    label: Austral # optional
+    latitude: -33.9275
+    longitude: 150.8081
+    timezone: Australia/Sydney # optional
+    units: metric # or imperial
+    cache: 5 # Time in minutes to cache API responses, to stay within limits
+    format: # optional, Intl.NumberFormat options
+        maximumFractionDigits: 1
+
+
+- glances:
+    url: http://192.168.20.69:61208
+    version: 4
+    cpu: true
+    mem: true
+    cputemp: true
+    uptime: true
+    disk: /
+    diskUnits: bytes
+    expanded: true
+    label: homelab
+
+
+# - weather:
+#     label: Sydney
+#     latitude: -33.8688
+#     longitude: 151.2093
+#     units: metric
+
+- stocks:
+    provider: finnhub
+    color: true # optional, defaults to true
+    cache: 5 # optional, default caches results for 1 minute
+    watchlist:
+      - AMZN
+      - VUG
+      - NVDA
+      - TSLA
+      - MSFT
+      - AAPL
+      - META
+      - SPUS

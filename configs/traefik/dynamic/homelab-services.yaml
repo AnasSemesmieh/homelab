@@ -1,0 +1,213 @@
+http:
+  routers:
+    portainer-http:
+      rule: "Host(`portainer.homelab`)"
+      entryPoints:
+        - web
+      middlewares:
+        - portainer-redirect-https
+      service: portainer-service
+
+    portainer-https:
+      rule: "Host(`portainer.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: portainer-service
+
+    code-http:
+      rule: "Host(`code.homelab`)"
+      entryPoints:
+        - web
+      middlewares:
+        - code-redirect-https
+      service: code-service
+
+    code-https:
+      rule: "Host(`code.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: code-service
+
+    scrypted-http:
+      rule: "Host(`scrypted.homelab`)"
+      entryPoints:
+        - web
+      middlewares:
+        - scrypted-redirect-https
+      service: scrypted-service
+
+    scrypted-https:
+      rule: "Host(`scrypted.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: scrypted-service
+
+    tautulli-http:
+      rule: "Host(`tautulli.homelab`)"
+      entryPoints:
+        - web
+      service: tautulli-service
+
+    homeassistant-http:
+      rule: "Host(`homeassistant.homelab`)"
+      entryPoints:
+        - web
+      service: homeassistant-service
+
+    myspeed-http:
+      rule: "Host(`myspeed.homelab`)"
+      entryPoints:
+        - web
+      service: myspeed-service
+
+    prowlarr-http:
+      rule: "Host(`prowlarr.homelab`)"
+      entryPoints:
+        - web
+      service: prowlarr-service
+
+    flaresolverr-http:
+      rule: "Host(`flaresolverr.homelab`)"
+      entryPoints:
+        - web
+      service: flaresolverr-service
+
+    tools-http:
+      rule: "Host(`tools.homelab`)"
+      entryPoints:
+        - web
+      middlewares:
+        - tools-redirect-https
+      service: tools-service
+
+    tools-https:
+      rule: "Host(`tools.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: tools-service
+
+    pdf-http:
+      rule: "Host(`pdf.homelab`)"
+      entryPoints:
+        - web
+      middlewares:
+        - pdf-redirect-https
+      service: pdf-service
+
+    pdf-https:
+      rule: "Host(`pdf.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: pdf-service
+
+    glances-http:
+      rule: "Host(`glances.homelab`)"
+      entryPoints:
+        - web
+      service: glances-service
+
+    glances-https:
+      rule: "Host(`glances.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: glances-service
+
+  middlewares:
+    portainer-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    code-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    scrypted-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    tools-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    pdf-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  services:
+    portainer-service:
+      loadBalancer:
+        serversTransport: portainer-transport
+        servers:
+          - url: "https://192.168.20.69:9443"
+
+    code-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:8443"
+
+    scrypted-service:
+      loadBalancer:
+        serversTransport: scrypted-transport
+        servers:
+          - url: "https://192.168.20.69:10443"
+
+    tautulli-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:8181"
+
+    homeassistant-service:
+      loadBalancer:
+        passHostHeader: false
+        servers:
+          - url: "http://192.168.20.69:8123"
+
+    myspeed-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.2:5216"
+
+    prowlarr-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:9696"
+
+    flaresolverr-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:8191"
+
+    tools-service:
+      loadBalancer:
+        passHostHeader: false
+        servers:
+          - url: "http://192.168.20.2:7190"
+
+    pdf-service:
+      loadBalancer:
+        passHostHeader: false
+        servers:
+          - url: "http://192.168.20.2:7890"
+
+    glances-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:61208"
+
+  serversTransports:
+    portainer-transport:
+      insecureSkipVerify: true
+
+    scrypted-transport:
+      insecureSkipVerify: true

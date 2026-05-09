@@ -1,0 +1,220 @@
+networks:
+  arrnetwork:
+    name: arrnetwork
+    ipam:
+      config:
+      - subnet: 172.69.0.0/24
+  traefik:
+    name: traefik
+    external: true
+x-common-env:
+  TZ: Australia/Sydney
+  PUID: 1000
+  PGID: 1000
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+    - NET_ADMIN
+    devices:
+    - /dev/net/tun:/dev/net/tun
+    volumes:
+    - ./gluetun:/gluetun
+    environment:
+      TZ: Australia/Sydney
+      PUID: 1000
+      PGID: 1000
+      IP_GLUETUN: 172.69.0.2
+      IP_RADARR: 172.69.0.3
+      IP_SONARR: 172.69.0.4
+      IP_SEERR: 172.69.0.5
+      VPN_SERVICE_PROVIDER: nordvpn
+      VPN_TYPE: wireguard
+      WIREGUARD_PRIVATE_KEY: REDACTED
+      WIREGUARD_ADDRESSES: 10.5.0.2/16
+      SERVER_COUNTRIES: Australia
+    networks:
+      arrnetwork:
+        ipv4_address: 172.69.0.2
+    ports:
+    - 6881:6881
+    - 6881:6881/udp
+    - 9696:9696
+    - 8191:8191
+    healthcheck:
+      test: wget -qO /dev/null http://127.0.0.1:9999 || exit 1
+      interval: 20s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+    labels:
+    - traefik.enable=true
+    - traefik.docker.network=arrnetwork
+    - traefik.http.routers.prowlarr.rule=Host(`prowlarr.homelab`)
+    - traefik.http.routers.prowlarr.entrypoints=web
+    - traefik.http.routers.prowlarr.service=prowlarr
+    - traefik.http.services.prowlarr.loadbalancer.server.port=9696
+    - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.homelab`)
+    - traefik.http.routers.flaresolverr.entrypoints=web
+    - traefik.http.routers.flaresolverr.service=flaresolverr
+    - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    ports:
+    - 8080:8080
+    networks:
+      arrnetwork:
+        ipv4_address: 172.69.0.6
+      traefik: {}
+    labels:
+    - deunhealth.restart.on.unhealthy=true
+    - traefik.enable=true
+    - traefik.docker.network=traefik
+    - traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.homelab`)
+    - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
+    - traefik.http.routers.qbittorrent.entrypoints=web
+    environment:
+      TZ: Australia/Sydney
+      PUID: 1000
+      PGID: 1000
+      UMASK: 2
+      WEBUI_PORT: 8080
+    volumes:
+    - ./qbittorrent:/config
+    - /data:/data
+    healthcheck:
+      test: wget -q --spider http://localhost:8080 || exit 1
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+  deunhealth:
+    image: qmcgaw/deunhealth
+    container_name: deunhealth
+    network_mode: none
+    environment:
+    - LOG_LEVEL=info
+    - HEALTH_SERVER_ADDRESS=127.0.0.1:9999
+    - TZ=Australia/Sydney
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    network_mode: service:gluetun
+    depends_on:
+      gluetun:
+        condition: service_healthy
+        restart: true
+    environment:
+      TZ: Australia/Sydney
+      PUID: 1000
+      PGID: 1000
+      UMASK: 2
+    volumes:
+    - ./prowlarr:/config
+    restart: unless-stopped
+    labels:
+    - traefik.enable=false
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    network_mode: service:gluetun
+    depends_on:
+      gluetun:
+        condition: service_healthy
+        restart: true
+    environment:
+    - LOG_LEVEL=info
+    - TZ=Australia/Sydney
+    restart: unless-stopped
+    labels:
+    - traefik.enable=false
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      TZ: Australia/Sydney
+      PUID: 1000
+      PGID: 1000
+      UMASK: 2
+    volumes:
+    - ./radarr:/config
+    - /data:/data
+    - /mnt/movies:/movies
+    ports:
+    - 7878:7878
+    networks:
+      arrnetwork:
+        ipv4_address: 172.69.0.3
+      traefik: {}
+    restart: unless-stopped
+    labels:
+    - traefik.enable=true
+    - traefik.docker.network=traefik
+    - traefik.http.routers.radarr.rule=Host(`radarr.homelab`)
+    - traefik.http.services.radarr.loadbalancer.server.port=7878
+    - traefik.http.routers.radarr.entrypoints=web
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      TZ: Australia/Sydney
+      PUID: 1000
+      PGID: 1000
+      UMASK: 2
+    volumes:
+    - ./sonarr:/config
+    - /data:/data
+    - /mnt/series:/series
+    ports:
+    - 8989:8989
+    networks:
+      arrnetwork:
+        ipv4_address: 172.69.0.4
+      traefik: {}
+    restart: unless-stopped
+    labels:
+    - traefik.enable=true
+    - traefik.docker.network=traefik
+    - traefik.http.routers.sonarr.rule=Host(`sonarr.homelab`)
+    - traefik.http.services.sonarr.loadbalancer.server.port=8989
+    - traefik.http.routers.sonarr.entrypoints=web
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
+    container_name: seerr
+    environment:
+      TZ: Australia/Sydney
+      PUID: 1000
+      PGID: 1000
+      LOG_LEVEL: info
+      PORT: 5055
+    volumes:
+    - seerr_config:/app/config
+    ports:
+    - 5055:5055
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/settings/public
+        || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    networks:
+      arrnetwork:
+        ipv4_address: 172.69.0.5
+      traefik: {}
+    restart: unless-stopped
+    labels:
+    - traefik.enable=true
+    - traefik.docker.network=traefik
+    - traefik.http.routers.seerr.rule=Host(`seerr.homelab`)
+    - traefik.http.services.seerr.loadbalancer.server.port=5055
+    - traefik.http.routers.seerr.entrypoints=web
+volumes:
+  seerr_config: null

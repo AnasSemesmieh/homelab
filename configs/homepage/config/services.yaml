@@ -1,0 +1,340 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+
+    
+# Media & Entertainment
+- Apps & Services:
+    - Plex:
+        icon: plex.png
+        href: http://plex.homelab/web
+        description: Media server
+        server: my-docker
+        container: plex
+        widget:
+            type: plex
+            url: http://plex.homelab
+            key: REDACTED
+            # -   type: tautulli
+            #     url: http://192.168.20.69:8181
+            #     key: REDACTED
+            #     enableUser: true # optional, defaults to false
+            #     showEpisodeNumber: true # optional, defaults to false
+            #     expandOneStreamToTwoRows: true # optional, defaults to true
+
+    - Plex Stats (Tautulli):
+        icon: tautulli.png
+        href: http://tautulli.homelab
+        description: Plex media server stats
+        server: my-docker
+        container: tautulli
+        widget:
+            type: tautulli
+            url: http://tautulli.homelab
+            key: REDACTED
+            enableUser: true # optional, defaults to false
+            showEpisodeNumber: true # optional, defaults to false
+            expandOneStreamToTwoRows: false # optional, defaults to true
+
+    - Home Assistant:
+        icon: home-assistant.png
+        href: http://homeassistant.homelab
+        description: Smart home automation (Tailscale)
+        server: my-docker
+        container: homeassistant
+    
+    - Homepage:
+        icon: homepage.png
+        href: http://homepage.homelab
+        description: Dashboard container status via Docker
+        server: my-docker
+        container: homepage
+
+    - Code Server:
+        icon: code-server.png
+        href: https://code.homelab
+        description: Remote VS Code workspace
+        server: my-docker
+        container: code-server
+
+    - Watchtower:
+        icon: watchtower.png
+        description: Automated image update watcher
+        server: my-docker
+        container: watchtower
+
+    - Deunhealth:
+        icon: mdi-heart-pulse
+        description: Auto-restarts unhealthy containers
+        server: my-docker
+        container: deunhealth
+
+    - Scrypted:
+        icon: scrypted.png
+        href: https://scrypted.homelab
+        description: Home automation video integration
+        server: my-docker
+        container: scrypted
+
+# Monitoring & Network
+# - Network:
+    
+    # - TailScale (NAS):
+    #     icon: tailscale.png
+    #     href: https://192.168.20.2:8443/webman/3rdparty/Tailscale/index.cgi/
+    #     widget:
+    #         type: tailscale
+    #         deviceid: nqu7nokmzw11CNTRL
+    #         key: REDACTED
+
+    # - TailScale (iphone):
+    #     icon: tailscale.png
+    #     href: https://192.168.20.69:8443/webman/3rdparty/Tailscale/index.cgi/
+    #     widget:
+    #         type: tailscale
+    #         deviceid: nKZpBpEyTw11CNTRL
+    #         key: REDACTED
+
+    # - TailScale (msi):
+    #     icon: tailscale.png
+    #     href: https://192.168.20.69:8443/webman/3rdparty/Tailscale/index.cgi/
+    #     widget:
+    #         type: tailscale
+    #         deviceid: ndFCtzuZLt11CNTRL
+    #         key: REDACTED
+
+- Media Pipeline:
+    - qBittorrent:
+        icon: qbittorrent.png
+        href: http://qbittorrent.homelab
+        description: Torrent client
+        server: my-docker
+        container: qbittorrent
+        widget:
+            type: qbittorrent
+            url: http://qbittorrent.homelab
+            username: REDACTED
+            password: REDACTED
+            enableLeechProgress: true
+            enableLeechSize: true
+            
+    - Seerr:
+        icon: seerr.png
+        href: http://seerr.homelab
+        description: Media requests
+        server: my-docker
+        container: seerr
+        widget:
+            type: seerr
+            url: http://seerr.homelab
+            key: REDACTED
+    
+    - Radarr:
+        icon: radarr.png
+        href: http://radarr.homelab
+        description: Movie management
+        server: my-docker
+        container: radarr
+        widget:
+            type: radarr
+            url: http://radarr.homelab
+            key: REDACTED
+
+    - Sonarr:
+        icon: sonarr.png
+        href: http://sonarr.homelab
+        description: TV management
+        server: my-docker
+        container: sonarr
+        widget:
+            type: sonarr
+            url: http://sonarr.homelab
+            key: REDACTED
+
+    
+    - Prowlarr:
+        icon: prowlarr.png
+        href: http://prowlarr.homelab
+        description: Indexer management
+        server: my-docker
+        container: prowlarr
+        widget:
+            type: prowlarr
+            url: http://prowlarr.homelab
+            key: REDACTED
+    
+    - MySpeedTest:
+        icon: myspeed.png
+        href: http://myspeed.homelab
+        description: Network speed test
+        widget:
+            type: myspeed
+            url: http://myspeed.homelab
+            #password: REDACTED
+
+
+    - Gluetun:
+        icon: gluetun.png
+        description: VPN tunnel and network gateway
+        server: my-docker
+        container: gluetun
+
+    - FlareSolverr:
+        icon: flaresolverr.png
+        href: http://flaresolverr.homelab
+        description: Cloudflare challenge solver
+        server: my-docker
+        container: flaresolverr
+
+    
+    
+# Infrastructure
+- Infrastructure:
+    - Synology NAS (DS416play):
+        icon: synology.png
+        href: https://nas.homelab
+        description: Storage and Docker host
+        widget:
+            type: diskstation
+            url: https://nas.homelab
+            username: REDACTED
+            password: REDACTED
+            volume: volume_2 # optional to switch to a specific volume, otherwise will show volume 1
+    
+    - Info:
+        icon: glances.png
+        href: https://glances.homelab
+        server: host
+        widget:
+            type: glances
+            url: http://glances.homelab
+            version: 4
+            metric: info
+            chart: true
+
+    - CPU:
+        icon: glances.png
+        href: https://glances.homelab
+        server: host
+        widget:
+            type: glances
+            url: http://glances.homelab
+            version: 4
+            metric: cpu
+
+    
+    - Portainer:
+        icon: portainer.png
+        href: https://portainer.homelab
+        description: Container management
+        server: my-docker
+        container: portainer
+        widget:
+            type: portainer
+            url: https://portainer.homelab
+            env: 3
+            #kubernetes: true # optional, defaults to false
+            key: REDACTED
+
+    
+
+    - Memory:
+        icon: glances.png
+        href: https://glances.homelab
+        server: host
+        widget:
+            type: glances
+            url: http://glances.homelab
+            version: 4
+            metric: memory
+
+    - Network:
+        icon: glances.png
+        href: https://glances.homelab
+        server: host
+        widget:
+            type: glances
+            url: http://glances.homelab
+            version: 4
+            metric: network:eno2
+            chart: true
+    
+# Network
+- Network:
+    
+    - Traefik:
+        icon: mdi-transit-connection-variant
+        href: http://traefik.homelab
+        description: Reverse proxy and dashboard
+        server: my-docker
+        container: traefik
+        widget:
+            type: traefik
+            url: http://traefik.homelab
+
+    - Pi-hole:
+        icon: pi-hole.png
+        href: http://pihole.homelab/admin
+        description: Network-wide adblocker
+        server: my-docker
+        container: pihole
+        widget:
+            type: pihole
+            url: http://192.168.20.69:8001
+            version: 6 # required if running v6 or higher, defaults to 5
+            key: REDACTED
+    
+    
+    - CF tunnel:
+        icon: cloudflare.png
+        href: https://dash.cloudflare.com/
+        description: Cloudflare Tunnel Dashboard
+        server: my-docker
+        container: cloudflared
+        widget:
+            type: cloudflared
+            accountid: 63c4a39ab833c667db5a4bd4539da518 # from zero trust dashboard url e.g. https://one.dash.cloudflare.com/<accountid>/home/quick-start
+            tunnelid: f296b912-2a86-4691-bc6e-5e6c4f7c8a4e # found in tunnels dashboard under the tunnel name
+            key: REDACTED
+
+    - TailScale (homelab):
+        icon: tailscale.png
+        href: https://nas.homelab/webman/3rdparty/Tailscale/index.cgi/
+        server: my-docker
+        container: tailscale
+        widgets:
+            -   type: tailscale
+                description: homelab
+                deviceid: nFU5FTpkW411CNTRL #homelab
+                key: REDACTED
+            -   type: tailscale
+                description: NAS
+                deviceid: nqu7nokmzw11CNTRL #NAS
+                key: REDACTED
+            -   type: tailscale
+                description: iPhone
+                deviceid: nKZpBpEyTw11CNTRL #iPhone
+                key: REDACTED
+            -   type: tailscale
+                description: MSI Laptop
+                deviceid: ndFCtzuZLt11CNTRL #MSI
+                key: REDACTED
+
+
+# - Docker & System:
+    
+
+
+# - Calendars:
+#     - Google Calendar:
+#         icon: google-calendar.png
+#         href: https://calendar.google.com/calendar/u/0/r
+#         widget:
+#             type: calendar
+#             firstDayInWeek: monday # optional - defaults to monday
+#             view: monthly # optional - possible values monthly, agenda
+#             maxEvents: 10 # optional - defaults to 10
+#             showTime: true # optional - show time for event happening today - defaults to false
+#             timezone: Australia/Sydney # optional and only when timezone is not detected properly (slightly slower performance) - force timezone for ical events (if it's the same - no change, if missing or different in ical - will be converted to this timezone)
+
+

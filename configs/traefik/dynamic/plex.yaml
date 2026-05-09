@@ -1,0 +1,13 @@
+http:
+  routers:
+    plex-file:
+      rule: "Host(`plex.homelab`)"
+      entryPoints:
+        - web
+      service: plex-file
+
+  services:
+    plex-file:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:32400"

@@ -1,0 +1,29 @@
+# Runtime and generated content
+configs/**/logs/
+configs/**/*.log
+configs/**/*.db
+configs/**/*.db-*
+configs/**/*.pid
+configs/**/*.lock
+configs/**/Backups/
+configs/**/Definitions/
+configs/**/Sentry/
+configs/**/MediaCover/
+
+# Secret and cert material (keep local only)
+configs/**/.env
+configs/**/secrets.yaml
+configs/**/cli_pw
+configs/**/tls*.crt
+configs/**/tls*.pem
+configs/**/tls*.key
+configs/**/tls_ca.crt
+*.pem
+*.key
+*.crt
+*.cer
+*.p7b
+
+# Editor/system
+.DS_Store
+.vscode/

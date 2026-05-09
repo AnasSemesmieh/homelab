@@ -1,0 +1,48 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/settings/
+
+providers:
+#   openweathermap: openweathermapapikey
+#   weatherapi: weatherapiapikey
+  finnhub: d7ittkhr01qn2qavd7h0d7ittkhr01qn2qavd7hg
+
+  
+title: Anas's HomeLab
+
+description: HomeLab dashboard built with Homepage
+
+background:
+  image: https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80
+  blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+  saturate: 50 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+  brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+  opacity: 50 # 0-100
+
+
+theme: dark # or light
+
+blockHighlights:
+  levels:
+    good: "bg-emerald-500/40 text-emerald-950 dark:bg-emerald-900/60 dark:text-emerald-400"
+    warn: "bg-amber-300/30 text-amber-900 dark:bg-amber-900/30 dark:text-amber-200"
+    danger: "bg-rose-700/45 text-rose-200 dark:bg-rose-950/70 dark:text-rose-400"
+
+showStats: true
+statusStyle: "dot"
+
+layout:
+  Apps & Services:
+    style: row
+    columns: 4
+  Media Pipeline:
+    style: row
+    columns: 4
+  Infrastructure:
+    style: row
+    columns: 3
+  Network:
+    style: row
+    columns: 4
+
+disableIndexing: true

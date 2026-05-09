@@ -1,0 +1,86 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/bookmarks
+
+# - Developer:
+#     - Github:
+#         - abbr: GH
+#           href: https://github.com/
+
+# - Social:
+#     - Reddit:
+#         - abbr: RE
+#           href: https://reddit.com/
+
+# - Entertainment:
+#     - YouTube:
+#         - abbr: YT
+#           href: https://youtube.com/
+
+
+- Local Links:
+    - Cockpit:
+        - icon: mdi-server
+          href: https://cockpit.homelab
+          description: System management interface
+
+    - Router:
+        - icon: router.png
+          href: http://192.168.20.1/login.html
+          description: Router Admin Page
+
+    - Dahua NVR:
+        - icon: dahua.png
+          href: https://nvr.homelab
+          description: NVR   
+
+    - IT Tools:
+        - icon: it-tools-light.png
+          href: https://tools.homelab
+          description: IT Tools (Local)
+
+    - Stirling PDF:
+        - icon: stirling-pdf.png
+          href: https://pdf.homelab
+          description: Stirling PDF Server
+
+    
+
+    # - Retro Assembly:
+    #     - icon: nintendo-switch.png
+    #       href: http://192.168.20.2:4235
+    #       description: RetroAssembly for retro games (Nintendo,GameBoy, PS)
+
+- External Links:
+    - Synology DSM (NAS):
+        - icon: synology-dsm.png
+          href: https://nas.semesmieh.com/
+          description: Synology DSM (NAS Admin Page)
+
+    - Vaultwarden:
+        - icon: vaultwarden.png
+          href: https://vault.semesmieh.com/
+          description: Vaultwarden Vault 
+    - Vaultwarden Admin:
+        - icon: vaultwarden.png
+          href: https://vault.semesmieh.com/admin
+          description: Vaultwarden Admin Page
+    
+    - IT Tools:
+        - icon: it-tools-light.png
+          href: http://tools.semesmieh.com/
+          description: IT Tools (Remote)
+
+    - Stirling PDF:
+        - icon: stirling-pdf.png
+          href: https://stirling.semesmieh.com/
+          description: Stirling PDF 
+
+    # - Retro Assembly:
+    #     - icon: nintendo-switch.png
+    #       href: https://retro.semesmieh.com
+    #       description: RetroAssembly for retro games (Nintendo,GameBoy, PS) (Remote)
+
+    
+
+    

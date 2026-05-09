@@ -1,0 +1,33 @@
+http:
+  routers:
+    nas-http:
+      rule: "Host(`nas.homelab`)"
+      entryPoints:
+        - web
+      middlewares:
+        - nas-redirect-https
+      service: nas-service
+
+    nas-https:
+      rule: "Host(`nas.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: nas-service
+
+  middlewares:
+    nas-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  services:
+    nas-service:
+      loadBalancer:
+        serversTransport: nas-transport
+        servers:
+          - url: "https://192.168.20.2:8443"
+
+  serversTransports:
+    nas-transport:
+      insecureSkipVerify: true

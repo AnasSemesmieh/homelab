@@ -1,0 +1,19 @@
+http:
+  routers:
+    cockpit-https:
+      rule: "Host(`cockpit.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: cockpit-service
+
+  services:
+    cockpit-service:
+      loadBalancer:
+        serversTransport: cockpit-transport
+        servers:
+          - url: "https://192.168.20.69:9090"
+
+  serversTransports:
+    cockpit-transport:
+      insecureSkipVerify: true
