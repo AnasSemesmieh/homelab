@@ -62,6 +62,7 @@ homelab-backup/
          docker-compose.yaml
          config/config.ini
       plex/
+         docker-compose.yml
          config/
             Library/Application Support/Plex Media Server/Preferences.xml
       traefik/
@@ -112,6 +113,7 @@ The backup automation currently captures these source-of-truth areas:
    - `tautulli/docker-compose.yaml`
    - `tautulli/config/config.ini`
 - Plex
+   - `plex/docker-compose.yml`
    - `plex/config/Library/Application Support/Plex Media Server/Preferences.xml`
 - Traefik
    - `traefik/docker-compose.yml`
