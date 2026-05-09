@@ -1,247 +1,110 @@
 # Homelab Backup Repository
 
-This repository stores source-of-truth homelab configuration files and restore docs.
-It intentionally excludes runtime state, logs, media, databases, and raw secrets.
+This repository is the source of truth for homelab configuration backups and disaster recovery.
+It tracks curated config files and automation scripts, while intentionally excluding runtime state, media, logs, databases, and raw credentials.
 
-## Latest Updates
+## What This Repo Does
 
-- Daily automated backup job is configured and active via cron.
-- Weekly snapshot tag job is configured and active via cron.
-- Weekly tags use format `backup-YYYY-MM-DD` and are pushed to `origin`.
-- Runtime artifacts are ignored (`.backup.lock`, `.backup-tag.lock`, `backup-cron.log`, `backup-weekly.log`).
-- Current remote repository: `https://github.com/AnasSemesmieh/homelab`.
+- Backs up allowlisted config files from `/home/anas` into `configs/`
+- Redacts secrets before commit
+- Scans for potential secret leaks
+- Automates daily backup commits and weekly restore-point tags
+- Provides fresh-install and restore runbooks
 
-## Layout
+## Quick Start
 
-- `inventory/include-paths.txt`: allowlist of files copied from `/home/anas`
-- `scripts/sync-configs.sh`: copies allowlisted files into `configs/`
-- `scripts/redact-secrets.sh`: redacts obvious secrets in tracked config files
-- `scripts/scan-secrets.sh`: scans tracked files for high-risk secret patterns
-- `scripts/backup-and-push.sh`: end-to-end daily automation (sync, redact, scan, commit, pull-rebase, push)
-- `scripts/weekly-tag.sh`: weekly snapshot tag automation (runs backup job, creates/pushes dated tag)
-- `restore/docker-compose.restore.yml`: one-shot restore compose stack for applying tracked configs to a new machine
-- `restore/apply-configs.sh`: restore helper used by the restore compose stack
-- `docs/RESTORE.md`: disaster recovery checklist
-- `configs/`: sanitized snapshot for version control
-
-## Sample Backup Snapshot
-
-Example of what an automated snapshot looks like in this repository:
-
-```text
-homelab-backup/
-   configs/
-      arrstack/
-         docker-compose.yml
-         setup-folders.sh
-         gluetun/servers.json
-      homeassistant/
-         docker-compose.yml
-         config/
-            configuration.yaml
-            automations.yaml
-            scenes.yaml
-            scripts.yaml
-      homepage/
-         docker-compose.yaml
-         config/
-            services.yaml
-            bookmarks.yaml
-            settings.yaml
-            widgets.yaml
-            custom.css
-            custom.js
-      immich/
-         docker-compose.yml
-         hwaccel.ml.yml
-         hwaccel.transcoding.yml
-      pihole/
-         docker-compose.yml
-         etc-pihole/pihole.toml
-      tautulli/
-         docker-compose.yaml
-         config/config.ini
-      plex/
-         docker-compose.yml
-         config/
-            Library/Application Support/Plex Media Server/Preferences.xml
-      traefik/
-         docker-compose.yml
-         dynamic/
-            cockpit.yaml
-            homelab-services.yaml
-            nas.yaml
-            plex.yaml
-            tls.yaml
+```bash
+cd /home/anas/homelab-backup
+./scripts/backup-and-push.sh
 ```
 
-## Backup Apps and Folders
+For restore preview:
 
-The backup automation currently captures these source-of-truth areas:
+```bash
+cd /home/anas/homelab-backup/restore
+docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=true restore-configs
+```
 
-- Host bootstrap
-   - `setup-repo.sh`
-- Arr stack
-   - `arrstack/docker-compose.yml`
-   - `arrstack/setup-folders.sh`
-   - `arrstack/gluetun/servers.json`
-- Home Assistant
-   - `homeassistant/docker-compose.yml`
-   - `homeassistant/config/configuration.yaml`
-   - `homeassistant/config/automations.yaml`
-   - `homeassistant/config/scenes.yaml`
-   - `homeassistant/config/scripts.yaml`
-- Homepage
-   - `homepage/docker-compose.yaml`
-   - `homepage/config/services.yaml`
-   - `homepage/config/bookmarks.yaml`
-   - `homepage/config/settings.yaml`
-   - `homepage/config/widgets.yaml`
-   - `homepage/config/custom.css`
-   - `homepage/config/custom.js`
-   - `homepage/config/docker.yaml`
-   - `homepage/config/kubernetes.yaml`
-   - `homepage/config/proxmox.yaml`
-- Immich
-   - `immich/docker-compose.yml`
-   - `immich/hwaccel.ml.yml`
-   - `immich/hwaccel.transcoding.yml`
-- Pi-hole
-   - `pihole/docker-compose.yml`
-   - `pihole/etc-pihole/pihole.toml`
-- Tautulli
-   - `tautulli/docker-compose.yaml`
-   - `tautulli/config/config.ini`
-- Plex
-   - `plex/docker-compose.yml`
-   - `plex/config/Library/Application Support/Plex Media Server/Preferences.xml`
-- Traefik
-   - `traefik/docker-compose.yml`
-   - `traefik/dynamic/cockpit.yaml`
-   - `traefik/dynamic/homelab-services.yaml`
-   - `traefik/dynamic/nas.yaml`
-   - `traefik/dynamic/plex.yaml`
-   - `traefik/dynamic/tls.yaml`
+## Documentation Index
 
-Anything not in `inventory/include-paths.txt` is not synced into the backup snapshot.
+Use this as the entry point to detailed runbooks.
 
-## Workflow
+### docs/FRESH-INSTALL.md
 
-1. Sync current files:
-   - `./scripts/sync-configs.sh`
-2. Redact secrets:
-   - `./scripts/redact-secrets.sh`
-3. Scan for leaks:
-   - `./scripts/scan-secrets.sh`
-4. Review and commit:
-   - `git status`
-   - `git add .`
-   - `git commit -m "backup: update homelab configs"`
+**Goal:** Build a complete homelab host from zero.
 
-## Create New Homelab (Fresh Build)
+**High-level contents:**
+- Host OS preparation (networking, firewall, base tooling)
+- Docker and Docker Compose installation
+- Repository bootstrap and inventory verification
+- Secret rehydration and config injection
+- Infrastructure-first bring-up (Traefik, DNS)
+- Application stack bring-up and simple health checks
+- Common failure scenarios and rollback guidance
 
-Use this flow when provisioning a new host from scratch.
+### docs/RESTORE.md
 
-1. Prepare host OS and networking:
-   - Install Linux updates.
-   - Set static IP and hostname.
-   - Configure DNS resolver to your local DNS strategy.
+**Goal:** Recover services quickly after host failure or corruption.
 
-2. Install base dependencies:
-   - Install Docker Engine and Docker Compose plugin.
-   - Install `git`, `curl`, and any required CLI tools.
+**High-level contents:**
+- Restore prerequisites and readiness checklist
+- Restore from latest or from weekly snapshot tags
+- Secret rehydration sequence and validation
+- Compose-based config restore workflow (dry-run/apply)
+- Ordered service recovery (infra first, then apps)
+- Post-restore validation and automation re-enable steps
+- Troubleshooting and recovery rollbacks
 
-3. Clone this repository:
-   - `git clone https://github.com/AnasSemesmieh/homelab /home/anas/homelab-backup`
-   - `cd /home/anas/homelab-backup`
+### docs/SECRETS.md
 
-4. Recreate secrets and local-only assets:
-   - Rebuild any `.env` files not tracked in git.
-   - Restore certificates/keys that are intentionally excluded.
-   - Re-issue or rotate API tokens as needed.
+**Goal:** Rehydrate all intentionally omitted credentials safely.
 
-5. Materialize configs to runtime paths:
-   - Copy from `configs/` into active stack paths under `/home/anas`.
-   - Validate permissions/ownership for app config folders.
+**High-level contents:**
+- Full list of redacted secrets by service
+- Where each secret is used in tracked configs
+- Masked examples and format/length validations
+- How to source/generate each secret
+- Rotation/renewal playbooks and security practices
+- Secret injection procedures before restore/apply
 
-6. Bring up core infrastructure first:
-   - Start reverse proxy and DNS-related services first.
-   - Validate local DNS names and TLS cert behavior.
+### docs/BACKUP-AUTOMATION.md
 
-7. Bring up application stacks:
-   - Start dashboard and monitoring.
-   - Start media pipeline and remaining services.
+**Goal:** Operate and troubleshoot unattended backups reliably.
 
-8. Validate end-to-end:
-   - Check service URLs and auth flows.
-   - Verify homepage widgets and routes.
-   - Verify `./scripts/backup-and-push.sh --dry-run` succeeds.
+**High-level contents:**
+- Daily pipeline internals (sync, redact, scan, commit, push)
+- Weekly snapshot tag flow (`backup-YYYY-MM-DD`)
+- Cron setup and verification
+- Log locations and health monitoring
+- Common automation failures and fixes
+- Restore helper stack behavior and options
 
-## Restore Existing Homelab (Recovery)
+## Repository Layout (High Level)
 
-Use this flow when rebuilding after host failure or major corruption.
+- `configs/`: sanitized backup snapshot used for restore
+- `inventory/include-paths.txt`: allowlist of tracked source files
+- `scripts/`: backup/redaction/scanning/tag automation
+- `restore/`: compose-based restore helper
+- `docs/`: operational runbooks
 
-1. Rebuild base host and install Docker/tooling.
-2. Clone repo to `/home/anas/homelab-backup`.
-3. Restore configs from `configs/` to live paths.
-4. Restore secrets, certs, and `.env` files.
-5. Start services in dependency order (infra first, apps second).
-6. Validate DNS, routing, TLS, and service health.
-7. Run backup scripts to confirm automation health:
-   - `./scripts/backup-and-push.sh --dry-run`
-   - `./scripts/weekly-tag.sh --dry-run`
-8. Re-enable schedules if needed:
-   - `crontab -l`
-   - Ensure both daily and weekly entries exist.
+## Backup Scope
 
-### Compose-Based Restore Helper
+Tracked scope is controlled by `inventory/include-paths.txt`.
+Only files listed there are synchronized into `configs/`.
 
-From a new machine after cloning this repository:
+Current services include (high level):
+- Traefik, Pi-hole, Home Assistant
+- Homepage, Arr stack, Plex, Tautulli, Immich
+- Host bootstrap script(s)
 
-1. Dry run (recommended first):
-   - `cd /home/anas/homelab-backup/restore`
-   - `docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=true restore-configs`
+## Automation Status
 
-2. Apply restore without overwriting existing files:
-   - `docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=false -e OVERWRITE=false restore-configs`
+- Daily backup job: active via cron
+- Weekly snapshot tag job: active via cron
+- Weekly tag format: `backup-YYYY-MM-DD`
 
-3. Apply restore and overwrite existing files:
-   - `docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=false -e OVERWRITE=true restore-configs`
+## Notes
 
-Optional target home override:
-
-- `docker compose -f docker-compose.restore.yml run --rm -e TARGET_HOME=/home/otheruser -e DRY_RUN=true restore-configs`
-
-## Daily Automation
-
-Run automation manually:
-
-- `./scripts/backup-and-push.sh`
-
-Dry run without committing/pushing:
-
-- `./scripts/backup-and-push.sh --dry-run`
-
-Suggested cron entry (daily at 03:25):
-
-- `25 3 * * * /home/anas/homelab-backup/scripts/backup-and-push.sh >> /home/anas/homelab-backup/backup-cron.log 2>&1`
-
-## Weekly Snapshot Tags
-
-Run weekly tag job manually:
-
-- `./scripts/weekly-tag.sh`
-
-Dry run without creating/pushing tag:
-
-- `./scripts/weekly-tag.sh --dry-run`
-
-Suggested cron entry (Sunday at 03:40):
-
-- `40 3 * * 0 /home/anas/homelab-backup/scripts/weekly-tag.sh >> /home/anas/homelab-backup/backup-weekly.log 2>&1`
-
-## Restore Goal
-
-This repo should be sufficient to rebuild services and routing with minimal manual steps once secrets are supplied.
-
-For the step-by-step rebuild procedure, see `docs/RESTORE.md`.
+- Do not commit unredacted secrets.
+- Run `./scripts/scan-secrets.sh` before pushing manual changes.
+- Use docs first: the README is intentionally concise.
