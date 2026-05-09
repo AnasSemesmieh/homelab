@@ -29,7 +29,7 @@ docker compose -f docker-compose.restore.yml run --rm -e DRY_RUN=true restore-co
 
 Use this as the entry point to detailed runbooks.
 
-### docs/FRESH-INSTALL.md
+### [docs/FRESH-INSTALL.md](docs/FRESH-INSTALL.md)
 
 **Goal:** Build a complete homelab host from zero.
 
@@ -42,7 +42,7 @@ Use this as the entry point to detailed runbooks.
 - Application stack bring-up and simple health checks
 - Common failure scenarios and rollback guidance
 
-### docs/RESTORE.md
+### [docs/RESTORE.md](docs/RESTORE.md)
 
 **Goal:** Recover services quickly after host failure or corruption.
 
@@ -55,7 +55,7 @@ Use this as the entry point to detailed runbooks.
 - Post-restore validation and automation re-enable steps
 - Troubleshooting and recovery rollbacks
 
-### docs/SECRETS.md
+### [docs/SECRETS.md](docs/SECRETS.md)
 
 **Goal:** Rehydrate all intentionally omitted credentials safely.
 
@@ -67,7 +67,7 @@ Use this as the entry point to detailed runbooks.
 - Rotation/renewal playbooks and security practices
 - Secret injection procedures before restore/apply
 
-### docs/BACKUP-AUTOMATION.md
+### [docs/BACKUP-AUTOMATION.md](docs/BACKUP-AUTOMATION.md)
 
 **Goal:** Operate and troubleshoot unattended backups reliably.
 
