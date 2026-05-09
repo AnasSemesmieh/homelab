@@ -141,6 +141,7 @@ Key secrets you'll need:
 ✓ Tautulli API key
 ✓ Homepage widget API keys (Portainer, Traefik, etc.)
 ✓ Arr stack API keys (Prowlarr, Radarr, Sonarr)
+✓ Gluetun WireGuard private key (VPN provider)
 ✓ Immich database password
 ```
 
@@ -175,6 +176,7 @@ export PORTAINER_PASSWORD="<your-password>"
 export PROWLARR_API_KEY="<your-key>"
 export RADARR_API_KEY="<your-key>"
 export SONARR_API_KEY="<your-key>"
+export WIREGUARD_PRIVATE_KEY="<your-vpn-wireguard-private-key>"
 
 # Immich
 export IMMICH_DB_PASSWORD="<generate-strong-password>"
@@ -203,6 +205,10 @@ sed -i "s|PlexOnlineUsername=\"REDACTED\"|PlexOnlineUsername=\"$PLEX_ONLINE_USER
 # Inject Tautulli credentials (use -i.bak to create backup)
 sed -i.bak "s|key: REDACTED|key: $TAUTULLI_API_KEY|g" \
   configs/homepage/config/services.yaml
+
+# Inject Gluetun WireGuard private key
+sed -i "s|WIREGUARD_PRIVATE_KEY: REDACTED|WIREGUARD_PRIVATE_KEY: $WIREGUARD_PRIVATE_KEY|g" \
+  configs/arrstack/docker-compose.yml
 
 # Verify injections worked
 echo "=== Verification ==="

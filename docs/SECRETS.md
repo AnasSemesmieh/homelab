@@ -434,6 +434,43 @@ api_key = REDACTED
 
 ---
 
+### Gluetun WireGuard Private Key
+
+**Location:** `arrstack/docker-compose.yml` → `WIREGUARD_PRIVATE_KEY` under `gluetun.environment`  
+**Purpose:** Authenticates the Gluetun client to the VPN provider's WireGuard endpoint  
+**Format:** Base64-encoded private key, typically 44 characters ending with `=`  
+**Example (masked):** `WIREGUARD_PRIVATE_KEY: REDACTED`
+
+**How to Source:**
+
+1. **From existing working Gluetun deployment:**
+   - Read from your non-backed-up runtime compose/env source:
+     ```bash
+     grep -E '^\s*WIREGUARD_PRIVATE_KEY:' /home/anas/arrstack/docker-compose.yml
+     ```
+
+2. **From VPN provider account (recommended after exposure):**
+   - Re-generate or rotate the WireGuard key pair in provider dashboard
+   - Use the new private key in `WIREGUARD_PRIVATE_KEY`
+   - Update paired public key/config on provider side if required
+
+3. **Gluetun provider setup docs:**
+   - [Gluetun Wiki](https://github.com/qdm12/gluetun-wiki)
+
+**Format Validation:**
+- Must be base64-like and not empty
+- Check: `grep -E 'WIREGUARD_PRIVATE_KEY:[[:space:]]*[A-Za-z0-9+/=]{40,}' arrstack/docker-compose.yml`
+
+**Rotation/Renewal:**
+- **When needed:** Immediately if exposed in git history, and then on periodic credential rotation
+- **How to rotate:**
+  1. Generate a new WireGuard key via VPN provider portal (or allowed client tools)
+  2. Replace `WIREGUARD_PRIVATE_KEY` in runtime config (not in tracked sanitized backup)
+  3. Restart stack: `docker compose -f arrstack/docker-compose.yml up -d --force-recreate gluetun`
+  4. Validate tunnel: `docker logs gluetun | grep -Ei 'wireguard|public ip|connected'`
+
+---
+
 ## Immich Secrets
 
 ### Immich Database Password

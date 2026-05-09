@@ -8,7 +8,7 @@ TARGET="${REPO_ROOT}/configs"
 find "${TARGET}" -type f \( -name '*.yml' -o -name '*.yaml' -o -name '*.toml' -o -name '*.xml' -o -name '*.ini' -o -name '*.env' \) -print0 |
 while IFS= read -r -d '' file; do
   sed -Ei \
-    -e 's#((password|passwd|api[_-]?key|token|secret|client_secret|passkey)[[:space:]]*[:=][[:space:]]*).*$#\1REDACTED#gI' \
+    -e 's#((password|passwd|api[_-]?key|private[_-]?key|token|secret|client_secret|passkey|wireguard_private_key|wgprivatekey)[[:space:]]*[:=][[:space:]]*).*$#\1REDACTED#gI' \
     -e 's#(tskey-api-)[A-Za-z0-9_-]+#\1REDACTED#g' \
     -e 's#(ptr_)[A-Za-z0-9=_-]+#\1REDACTED#g' \
     -e 's#(cfat_)[A-Za-z0-9_-]+#\1REDACTED#g' \

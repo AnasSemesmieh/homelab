@@ -259,6 +259,7 @@ export IMMICH_DB_PASSWORD="<generate-strong-random-password>"
 export PROWLARR_API_KEY="<your-prowlarr-api-key>"
 export RADARR_API_KEY="<your-radarr-api-key>"
 export SONARR_API_KEY="<your-sonarr-api-key>"
+export WIREGUARD_PRIVATE_KEY="<your-vpn-wireguard-private-key>"
 EOF
 
 # Secure permissions
@@ -293,6 +294,10 @@ sed -i "s|key: REDACTED|key: $TAUTULLI_API_KEY|g" \
 # Inject Pi-hole API into pihole.toml (if present)
 sed -i "s|ADMIN_AUTH_SESSION = \"REDACTED\"|ADMIN_AUTH_SESSION = \"$PIHOLE_PASSWORD\"|g" \
   configs/pihole/etc-pihole/pihole.toml
+
+# Inject Gluetun WireGuard private key
+sed -i "s|WIREGUARD_PRIVATE_KEY: REDACTED|WIREGUARD_PRIVATE_KEY: $WIREGUARD_PRIVATE_KEY|g" \
+  configs/arrstack/docker-compose.yml
 
 # Verify all secrets injected
 echo ""

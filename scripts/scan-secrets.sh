@@ -8,9 +8,10 @@ echo "Scanning ${TARGET} for potential secrets..."
 
 matches="$(
   {
-    grep -RInE '(password|passwd|api[_-]?key|token|secret|client_secret|passkey)[[:space:]]*[:=][[:space:]]*[^#[:space:]]+' "${TARGET}" || true
+    grep -RInE '(password|passwd|api[_-]?key|private[_-]?key|token|secret|client_secret|passkey|wireguard_private_key|wgprivatekey)[[:space:]]*[:=][[:space:]]*[^#[:space:]]+' "${TARGET}" || true
     grep -RInE '(tskey-api-|ptr_|cfat_)' "${TARGET}" || true
     grep -RInE '(PlexOnlineToken|PlexOnlineMail|PlexOnlineUsername)="[^"]+"' "${TARGET}" || true
+    grep -RInE 'WIREGUARD_PRIVATE_KEY:[[:space:]]*[A-Za-z0-9+/=]{20,}' "${TARGET}" || true
   } | grep -vE 'REDACTED|\{\{[[:space:]]*\.Config\.' || true
 )"
 
