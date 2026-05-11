@@ -237,9 +237,6 @@ cat > ~/.homelab-secrets.env << 'EOF'
 export PLEX_ONLINE_TOKEN="<your-actual-plex-token>"
 export PLEX_ONLINE_USERNAME="your-email@example.com"
 
-# Pi-hole
-export PIHOLE_PASSWORD="<your-pihole-admin-password>"
-
 # Tautulli
 export TAUTULLI_API_KEY="<your-tautulli-api-key>"
 export TAUTULLI_PASSWORD="<your-tautulli-password>"
@@ -290,10 +287,6 @@ sed -i "s|PlexOnlineUsername=\"REDACTED\"|PlexOnlineUsername=\"$PLEX_ONLINE_USER
 # Inject Tautulli credentials into services.yaml
 sed -i "s|key: REDACTED|key: $TAUTULLI_API_KEY|g" \
   configs/homepage/config/services.yaml
-  
-# Inject Pi-hole API into pihole.toml (if present)
-sed -i "s|ADMIN_AUTH_SESSION = \"REDACTED\"|ADMIN_AUTH_SESSION = \"$PIHOLE_PASSWORD\"|g" \
-  configs/pihole/etc-pihole/pihole.toml
 
 # Inject Gluetun WireGuard private key
 sed -i "s|WIREGUARD_PRIVATE_KEY: REDACTED|WIREGUARD_PRIVATE_KEY: $WIREGUARD_PRIVATE_KEY|g" \
@@ -412,16 +405,13 @@ docker compose up -d
 sleep 10
 
 # Check logs
-docker compose logs pihole | grep -i "password\|listening"
+docker compose logs pihole | grep -i "listening\|ready"
 ```
 
 **Initial setup:**
 ```bash
-# Extract Pi-hole admin password from logs
-docker compose logs pihole | grep -i "password"
-
-# Access web UI (may fail if DNS not configured yet)
-# Use direct IP: http://<host-ip>/admin
+# Access web UI through Authentik once DNS is configured
+# Use: https://pihole.homelab.internal/admin/
 ```
 
 ### 5.5 Configure Local DNS Resolution

@@ -10,7 +10,7 @@ services:
       - "8444:443/tcp"
     environment:
       TZ: 'Australia/Sydney'
-      WEBPASSWORD: REDACTED
+      FTLCONF_webserver_api_password: REDACTED
       DNS1: 1.1.1.1
       DNS2: 8.8.8.8
     volumes:

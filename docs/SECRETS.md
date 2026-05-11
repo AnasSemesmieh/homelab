@@ -89,51 +89,40 @@ Each section explains where the secret is used, how to source it, format require
 
 ## Pi-hole Secrets
 
-### Pi-hole API Token / Admin Password
+### Pi-hole Admin Password
 
 **Location:** `pihole/etc-pihole/pihole.toml`  
-**Keys:**
-- `ADMIN_AUTH_SESSION` — Session token for web dashboard
-- `WEBTHEME` — Not sensitive, but present
-- Various other configs
-
-**Purpose:** Admin access to Pi-hole dashboard and API  
-**Format:** Session token (variable length, typically 32–64 hex chars)  
-**Example (masked):** `ADMIN_AUTH_SESSION = "a1b2c3d4e5f6g7h8i9j0..."`
+**Purpose:** Optional direct admin access to Pi-hole when it is not exclusively protected by Authentik  
+**Format:** Password string  
+**Current homelab behavior:** The web password is intentionally unset and Pi-hole is protected by Traefik + Authentik instead.
 
 **How to Source:**
 
-1. **First time setup (fresh Pi-hole):**
-   - Pi-hole generates a random password on first run
-   - Access web interface (`http://pihole.homelab/admin`)
-   - Password is displayed in container logs:
-     ```bash
-     docker compose -f pihole/docker-compose.yml logs pihole | grep -i "password"
-     ```
+1. **Recommended current setup:**
+   - Leave the Pi-hole web password unset
+   - Keep Pi-hole accessible only behind Authentik on `https://pihole.homelab.internal/admin/`
 
-2. **From existing installation:**
-   - Log into Pi-hole web admin console
-   - Settings → Users → View password (if you have admin access)
-   - Or extract session from browser localStorage (for restore):
+2. **If you want direct Pi-hole auth instead:**
+   - Set `FTLCONF_webserver_api_password` in `pihole/docker-compose.yml`
+   - Or run:
      ```bash
-     # In browser DevTools → Application → LocalStorage → pihole.homelab
+     cd pihole
+     docker compose exec pihole pihole -a -p <new-password>
      ```
-
-3. **Using pihole.toml directly:**
-   - Admin password is hashed; extract from web UI settings instead
 
 **Format Validation:**
-- Must be a valid session token or password string
-- Check presence: `grep -E "ADMIN_AUTH" pihole/etc-pihole/pihole.toml`
+- If Authentik is the only gate, no Pi-hole password is required
+- If direct auth is enabled, verify non-empty password config in compose or via the Pi-hole CLI
 
 **Rotation/Renewal:**
-- **When needed:** Routine security practice (annually or after suspected compromise)
-- **How to reset:**
+- **When needed:** Only if you decide to expose Pi-hole without Authentik or want a fallback direct login
+- **How to set/reset:**
   ```bash
   cd pihole
   docker compose exec pihole pihole -a -p <new-password>
   ```
-- **Then update:** Extract new password and update backup if storing it
+
+**Restore Note:** In this homelab, restoring Pi-hole does not require rehydrating a Pi-hole admin password unless you intentionally choose to enable one.
 
 **Related Settings:**
 - Refer to [Pi-hole official configuration docs](https://docs.pi-hole.net/)

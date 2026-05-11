@@ -137,7 +137,6 @@ Key secrets you'll need:
 ✓ Plex OnlineToken (from Plex account or existing installation)
 ✓ Plex OnlineUsername (your Plex email)
 ✓ Traefik TLS certificates (wildcard.crt, wildcard.key)
-✓ Pi-hole admin password
 ✓ Tautulli API key
 ✓ Homepage widget API keys (Portainer, Traefik, etc.)
 ✓ Arr stack API keys (Prowlarr, Radarr, Sonarr)
@@ -160,9 +159,6 @@ export PLEX_ONLINE_USERNAME="your-email@example.com"
 # Traefik TLS
 export TRAEFIK_CERT_KEY="<paste-private-key-content>"
 export TRAEFIK_CERT_CRT="<paste-certificate-content>"
-
-# Pi-hole
-export PIHOLE_PASSWORD="<your-admin-password>"
 
 # Tautulli
 export TAUTULLI_API_KEY="<your-api-key>"
@@ -379,11 +375,11 @@ docker compose up -d
 # Wait for startup
 sleep 10
 
-# Check logs for admin password
-docker compose logs pihole | grep -i "password"
+# Check logs for clean startup
+docker compose logs pihole | grep -i "listening\|ready"
 ```
 
-**✓ Validation Checkpoint:** Should see "password" output in logs (if first run).
+**✓ Validation Checkpoint:** Pi-hole should start cleanly and remain reachable only through Authentik at `/admin/`.
 
 ### 5.4 Configure Local DNS
 

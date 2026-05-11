@@ -37,3 +37,4 @@ traefik/dynamic/tls.yaml
 authentik/docker-compose.yml
 authentik/.env
 dockhand/docker-compose.yml
+code-server/config/.config/code-server/config.yaml
