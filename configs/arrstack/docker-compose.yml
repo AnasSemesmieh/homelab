@@ -51,13 +51,25 @@ services:
     labels:
     - traefik.enable=true
     - traefik.docker.network=arrnetwork
-    - traefik.http.routers.prowlarr.rule=Host(`prowlarr.homelab`)
-    - traefik.http.routers.prowlarr.entrypoints=web
-    - traefik.http.routers.prowlarr.service=prowlarr
+    - traefik.http.routers.prowlarr-http.rule=Host(`prowlarr.homelab`)
+    - traefik.http.routers.prowlarr-http.entrypoints=web
+    - traefik.http.routers.prowlarr-http.middlewares=prowlarr-https-redirect
+    - traefik.http.middlewares.prowlarr-https-redirect.redirectscheme.scheme=https
+    - traefik.http.routers.prowlarr-http.service=prowlarr
+    - traefik.http.routers.prowlarr-https.rule=Host(`prowlarr.homelab`)
+    - traefik.http.routers.prowlarr-https.entrypoints=websecure
+    - traefik.http.routers.prowlarr-https.tls=true
+    - traefik.http.routers.prowlarr-https.service=prowlarr
     - traefik.http.services.prowlarr.loadbalancer.server.port=9696
-    - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.homelab`)
-    - traefik.http.routers.flaresolverr.entrypoints=web
-    - traefik.http.routers.flaresolverr.service=flaresolverr
+    - traefik.http.routers.flaresolverr-http.rule=Host(`flaresolverr.homelab`)
+    - traefik.http.routers.flaresolverr-http.entrypoints=web
+    - traefik.http.routers.flaresolverr-http.middlewares=flaresolverr-https-redirect
+    - traefik.http.middlewares.flaresolverr-https-redirect.redirectscheme.scheme=https
+    - traefik.http.routers.flaresolverr-http.service=flaresolverr
+    - traefik.http.routers.flaresolverr-https.rule=Host(`flaresolverr.homelab`)
+    - traefik.http.routers.flaresolverr-https.entrypoints=websecure
+    - traefik.http.routers.flaresolverr-https.tls=true
+    - traefik.http.routers.flaresolverr-https.service=flaresolverr
     - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -72,9 +84,16 @@ services:
     - deunhealth.restart.on.unhealthy=true
     - traefik.enable=true
     - traefik.docker.network=traefik
-    - traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.homelab`)
+    - traefik.http.routers.qbittorrent-http.rule=Host(`qbittorrent.homelab`)
+    - traefik.http.routers.qbittorrent-http.entrypoints=web
+    - traefik.http.routers.qbittorrent-http.middlewares=qbittorrent-https-redirect
+    - traefik.http.middlewares.qbittorrent-https-redirect.redirectscheme.scheme=https
+    - traefik.http.routers.qbittorrent-http.service=qbittorrent
+    - traefik.http.routers.qbittorrent-https.rule=Host(`qbittorrent.homelab`)
+    - traefik.http.routers.qbittorrent-https.entrypoints=websecure
+    - traefik.http.routers.qbittorrent-https.tls=true
+    - traefik.http.routers.qbittorrent-https.service=qbittorrent
     - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
-    - traefik.http.routers.qbittorrent.entrypoints=web
     environment:
       TZ: Australia/Sydney
       PUID: 1000
@@ -156,9 +175,16 @@ services:
     labels:
     - traefik.enable=true
     - traefik.docker.network=traefik
-    - traefik.http.routers.radarr.rule=Host(`radarr.homelab`)
+    - traefik.http.routers.radarr-http.rule=Host(`radarr.homelab`)
+    - traefik.http.routers.radarr-http.entrypoints=web
+    - traefik.http.routers.radarr-http.middlewares=radarr-https-redirect
+    - traefik.http.middlewares.radarr-https-redirect.redirectscheme.scheme=https
+    - traefik.http.routers.radarr-http.service=radarr
+    - traefik.http.routers.radarr-https.rule=Host(`radarr.homelab`)
+    - traefik.http.routers.radarr-https.entrypoints=websecure
+    - traefik.http.routers.radarr-https.tls=true
+    - traefik.http.routers.radarr-https.service=radarr
     - traefik.http.services.radarr.loadbalancer.server.port=7878
-    - traefik.http.routers.radarr.entrypoints=web
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
@@ -181,9 +207,16 @@ services:
     labels:
     - traefik.enable=true
     - traefik.docker.network=traefik
-    - traefik.http.routers.sonarr.rule=Host(`sonarr.homelab`)
+    - traefik.http.routers.sonarr-http.rule=Host(`sonarr.homelab`)
+    - traefik.http.routers.sonarr-http.entrypoints=web
+    - traefik.http.routers.sonarr-http.middlewares=sonarr-https-redirect
+    - traefik.http.middlewares.sonarr-https-redirect.redirectscheme.scheme=https
+    - traefik.http.routers.sonarr-http.service=sonarr
+    - traefik.http.routers.sonarr-https.rule=Host(`sonarr.homelab`)
+    - traefik.http.routers.sonarr-https.entrypoints=websecure
+    - traefik.http.routers.sonarr-https.tls=true
+    - traefik.http.routers.sonarr-https.service=sonarr
     - traefik.http.services.sonarr.loadbalancer.server.port=8989
-    - traefik.http.routers.sonarr.entrypoints=web
   seerr:
     image: ghcr.io/seerr-team/seerr:latest
     init: true
@@ -213,8 +246,15 @@ services:
     labels:
     - traefik.enable=true
     - traefik.docker.network=traefik
-    - traefik.http.routers.seerr.rule=Host(`seerr.homelab`)
+    - traefik.http.routers.seerr-http.rule=Host(`seerr.homelab`)
+    - traefik.http.routers.seerr-http.entrypoints=web
+    - traefik.http.routers.seerr-http.middlewares=seerr-https-redirect
+    - traefik.http.middlewares.seerr-https-redirect.redirectscheme.scheme=https
+    - traefik.http.routers.seerr-http.service=seerr
+    - traefik.http.routers.seerr-https.rule=Host(`seerr.homelab`)
+    - traefik.http.routers.seerr-https.entrypoints=websecure
+    - traefik.http.routers.seerr-https.tls=true
+    - traefik.http.routers.seerr-https.service=seerr
     - traefik.http.services.seerr.loadbalancer.server.port=5055
-    - traefik.http.routers.seerr.entrypoints=web
 volumes:
   seerr_config: null

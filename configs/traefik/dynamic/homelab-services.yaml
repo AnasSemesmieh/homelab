@@ -49,30 +49,75 @@ http:
       rule: "Host(`tautulli.homelab`)"
       entryPoints:
         - web
+      middlewares:
+        - tautulli-redirect-https
+      service: tautulli-service
+
+    tautulli-https:
+      rule: "Host(`tautulli.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
       service: tautulli-service
 
     homeassistant-http:
       rule: "Host(`homeassistant.homelab`)"
       entryPoints:
         - web
+      middlewares:
+        - homeassistant-redirect-https
+      service: homeassistant-service
+
+    homeassistant-https:
+      rule: "Host(`homeassistant.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
       service: homeassistant-service
 
     myspeed-http:
       rule: "Host(`myspeed.homelab`)"
       entryPoints:
         - web
+      middlewares:
+        - myspeed-redirect-https
+      service: myspeed-service
+
+    myspeed-https:
+      rule: "Host(`myspeed.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
       service: myspeed-service
 
     prowlarr-http:
       rule: "Host(`prowlarr.homelab`)"
       entryPoints:
         - web
+      middlewares:
+        - prowlarr-redirect-https
+      service: prowlarr-service
+
+    prowlarr-https:
+      rule: "Host(`prowlarr.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
       service: prowlarr-service
 
     flaresolverr-http:
       rule: "Host(`flaresolverr.homelab`)"
       entryPoints:
         - web
+      middlewares:
+        - flaresolverr-redirect-https
+      service: flaresolverr-service
+
+    flaresolverr-https:
+      rule: "Host(`flaresolverr.homelab`)"
+      entryPoints:
+        - websecure
+      tls: {}
       service: flaresolverr-service
 
     tools-http:
@@ -109,6 +154,8 @@ http:
       rule: "Host(`glances.homelab`)"
       entryPoints:
         - web
+      middlewares:
+        - glances-redirect-https
       service: glances-service
 
     glances-https:
@@ -130,6 +177,36 @@ http:
         permanent: true
 
     scrypted-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    tautulli-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    homeassistant-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    myspeed-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    prowlarr-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    flaresolverr-redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    glances-redirect-https:
       redirectScheme:
         scheme: https
         permanent: true

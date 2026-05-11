@@ -132,7 +132,7 @@
   # Allowed values are:
   #     Array of custom DNS records each one in HOSTS form: "IP HOSTNAME [HOSTNAME ...]"
   hosts = [
-    "192.168.20.69 homepage.homelab homeassistant.homelab code.homelab portainer.homelab pihole.homelab plex.homelab tautulli.homelab qbittorrent.homelab radarr.homelab sonarr.homelab prowlarr.homelab seerr.homelab flaresolverr.homelab scrypted.homelab glances.homelab nas.homelab myspeed.homelab cockpit.homelab tools.homelab pdf.homelab traefik.homelab",
+    "192.168.20.69 homepage.homelab homeassistant.homelab code.homelab portainer.homelab pihole.homelab plex.homelab tautulli.homelab qbittorrent.homelab radarr.homelab sonarr.homelab prowlarr.homelab seerr.homelab flaresolverr.homelab scrypted.homelab glances.homelab nas.homelab myspeed.homelab cockpit.homelab tools.homelab pdf.homelab traefik.homelab dockhand.homelab",
     "192.168.20.1 router.homelab",
     "192.168.20.3 nvr.homelab",
     "192.168.20.2 synology.homelab",

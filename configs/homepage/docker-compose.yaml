@@ -18,9 +18,16 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik
-      - traefik.http.routers.homepage.rule=Host(`homepage.homelab`)
+      - traefik.http.routers.homepage-http.rule=Host(`homepage.homelab`)
+      - traefik.http.routers.homepage-http.entrypoints=web
+      - traefik.http.routers.homepage-http.middlewares=homepage-https-redirect
+      - traefik.http.middlewares.homepage-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.homepage-http.service=homepage
+      - traefik.http.routers.homepage-https.rule=Host(`homepage.homelab`)
+      - traefik.http.routers.homepage-https.entrypoints=websecure
+      - traefik.http.routers.homepage-https.tls=true
+      - traefik.http.routers.homepage-https.service=homepage
       - traefik.http.services.homepage.loadbalancer.server.port=3000
-      - traefik.http.routers.homepage.entrypoints=web
     networks:
       - arrnetwork
       - traefik

@@ -7,7 +7,7 @@
 - Apps & Services:
     - Plex:
         icon: plex.png
-        href: http://plex.homelab/web
+        href: https://plex.homelab/web
         description: Media server
         server: my-docker
         container: plex
@@ -24,13 +24,13 @@
 
     - Plex Stats (Tautulli):
         icon: tautulli.png
-        href: http://tautulli.homelab
+        href: https://tautulli.homelab
         description: Plex media server stats
         server: my-docker
         container: tautulli
         widget:
             type: tautulli
-            url: http://tautulli.homelab
+            url: http://192.168.20.69:8181
             key: REDACTED
             enableUser: true # optional, defaults to false
             showEpisodeNumber: true # optional, defaults to false
@@ -38,14 +38,14 @@
 
     - Home Assistant:
         icon: home-assistant.png
-        href: http://homeassistant.homelab
+        href: https://homeassistant.homelab
         description: Smart home automation (Tailscale)
         server: my-docker
         container: homeassistant
     
     - Homepage:
         icon: homepage.png
-        href: http://homepage.homelab
+        href: https://homepage.homelab
         description: Dashboard container status via Docker
         server: my-docker
         container: homepage
@@ -106,13 +106,13 @@
 - Media Pipeline:
     - qBittorrent:
         icon: qbittorrent.png
-        href: http://qbittorrent.homelab
+        href: https://qbittorrent.homelab
         description: Torrent client
         server: my-docker
         container: qbittorrent
         widget:
             type: qbittorrent
-            url: http://qbittorrent.homelab
+            url: http://192.168.20.69:8080
             username: REDACTED
             password: REDACTED
             enableLeechProgress: true
@@ -120,56 +120,56 @@
             
     - Seerr:
         icon: seerr.png
-        href: http://seerr.homelab
+        href: https://seerr.homelab
         description: Media requests
         server: my-docker
         container: seerr
         widget:
             type: seerr
-            url: http://seerr.homelab
+            url: http://192.168.20.69:5055
             key: REDACTED
     
     - Radarr:
         icon: radarr.png
-        href: http://radarr.homelab
+        href: https://radarr.homelab
         description: Movie management
         server: my-docker
         container: radarr
         widget:
             type: radarr
-            url: http://radarr.homelab
+            url: http://192.168.20.69:7878
             key: REDACTED
 
     - Sonarr:
         icon: sonarr.png
-        href: http://sonarr.homelab
+        href: https://sonarr.homelab
         description: TV management
         server: my-docker
         container: sonarr
         widget:
             type: sonarr
-            url: http://sonarr.homelab
+            url: http://192.168.20.69:8989
             key: REDACTED
 
     
     - Prowlarr:
         icon: prowlarr.png
-        href: http://prowlarr.homelab
+        href: https://prowlarr.homelab
         description: Indexer management
         server: my-docker
         container: prowlarr
         widget:
             type: prowlarr
-            url: http://prowlarr.homelab
+            url: http://192.168.20.69:9696
             key: REDACTED
     
     - MySpeedTest:
         icon: myspeed.png
-        href: http://myspeed.homelab
+        href: https://myspeed.homelab
         description: Network speed test
         widget:
             type: myspeed
-            url: http://myspeed.homelab
+            url: http://192.168.20.2:5216
             #password: REDACTED
 
 
@@ -181,7 +181,7 @@
 
     - FlareSolverr:
         icon: flaresolverr.png
-        href: http://flaresolverr.homelab
+        href: https://flaresolverr.homelab
         description: Cloudflare challenge solver
         server: my-docker
         container: flaresolverr
@@ -207,7 +207,7 @@
         server: host
         widget:
             type: glances
-            url: http://glances.homelab
+            url: http://192.168.20.69:61208
             version: 4
             metric: info
             chart: true
@@ -218,7 +218,7 @@
         server: host
         widget:
             type: glances
-            url: http://glances.homelab
+            url: http://192.168.20.69:61208
             version: 4
             metric: cpu
 
@@ -244,7 +244,7 @@
         server: host
         widget:
             type: glances
-            url: http://glances.homelab
+            url: http://192.168.20.69:61208
             version: 4
             metric: memory
 
@@ -254,7 +254,7 @@
         server: host
         widget:
             type: glances
-            url: http://glances.homelab
+            url: http://192.168.20.69:61208
             version: 4
             metric: network:eno2
             chart: true
@@ -264,17 +264,17 @@
     
     - Traefik:
         icon: mdi-transit-connection-variant
-        href: http://traefik.homelab
+        href: https://traefik.homelab
         description: Reverse proxy and dashboard
         server: my-docker
         container: traefik
         widget:
             type: traefik
-            url: http://traefik.homelab
+            url: http://192.168.20.69:8888
 
     - Pi-hole:
         icon: pi-hole.png
-        href: http://pihole.homelab/admin
+        href: https://pihole.homelab/admin
         description: Network-wide adblocker
         server: my-docker
         container: pihole
