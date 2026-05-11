@@ -1,7 +1,7 @@
 http:
   routers:
     portainer-http:
-      rule: "Host(`portainer.homelab`)"
+      rule: "Host(`portainer.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -9,14 +9,16 @@ http:
       service: portainer-service
 
     portainer-https:
-      rule: "Host(`portainer.homelab`)"
+      rule: "Host(`portainer.homelab.internal`)"
       entryPoints:
         - websecure
+      middlewares:
+        - authentik@file
       tls: {}
       service: portainer-service
 
     code-http:
-      rule: "Host(`code.homelab`)"
+      rule: "Host(`code.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -24,14 +26,16 @@ http:
       service: code-service
 
     code-https:
-      rule: "Host(`code.homelab`)"
+      rule: "Host(`code.homelab.internal`)"
       entryPoints:
         - websecure
+      middlewares:
+        - authentik@file
       tls: {}
       service: code-service
 
     scrypted-http:
-      rule: "Host(`scrypted.homelab`)"
+      rule: "Host(`scrypted.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -39,14 +43,14 @@ http:
       service: scrypted-service
 
     scrypted-https:
-      rule: "Host(`scrypted.homelab`)"
+      rule: "Host(`scrypted.homelab.internal`)"
       entryPoints:
         - websecure
       tls: {}
       service: scrypted-service
 
     tautulli-http:
-      rule: "Host(`tautulli.homelab`)"
+      rule: "Host(`tautulli.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -54,14 +58,16 @@ http:
       service: tautulli-service
 
     tautulli-https:
-      rule: "Host(`tautulli.homelab`)"
+      rule: "Host(`tautulli.homelab.internal`)"
       entryPoints:
         - websecure
+      middlewares:
+        - authentik@file
       tls: {}
       service: tautulli-service
 
     homeassistant-http:
-      rule: "Host(`homeassistant.homelab`)"
+      rule: "Host(`homeassistant.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -69,14 +75,14 @@ http:
       service: homeassistant-service
 
     homeassistant-https:
-      rule: "Host(`homeassistant.homelab`)"
+      rule: "Host(`homeassistant.homelab.internal`)"
       entryPoints:
         - websecure
       tls: {}
       service: homeassistant-service
 
     myspeed-http:
-      rule: "Host(`myspeed.homelab`)"
+      rule: "Host(`myspeed.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -84,14 +90,16 @@ http:
       service: myspeed-service
 
     myspeed-https:
-      rule: "Host(`myspeed.homelab`)"
+      rule: "Host(`myspeed.homelab.internal`)"
       entryPoints:
         - websecure
+      middlewares:
+        - authentik@file
       tls: {}
       service: myspeed-service
 
     prowlarr-http:
-      rule: "Host(`prowlarr.homelab`)"
+      rule: "Host(`prowlarr.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -99,14 +107,16 @@ http:
       service: prowlarr-service
 
     prowlarr-https:
-      rule: "Host(`prowlarr.homelab`)"
+      rule: "Host(`prowlarr.homelab.internal`)"
       entryPoints:
         - websecure
+      middlewares:
+        - authentik@file
       tls: {}
       service: prowlarr-service
 
     flaresolverr-http:
-      rule: "Host(`flaresolverr.homelab`)"
+      rule: "Host(`flaresolverr.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -114,14 +124,16 @@ http:
       service: flaresolverr-service
 
     flaresolverr-https:
-      rule: "Host(`flaresolverr.homelab`)"
+      rule: "Host(`flaresolverr.homelab.internal`)"
       entryPoints:
         - websecure
+      middlewares:
+        - authentik@file
       tls: {}
       service: flaresolverr-service
 
     tools-http:
-      rule: "Host(`tools.homelab`)"
+      rule: "Host(`tools.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -129,14 +141,16 @@ http:
       service: tools-service
 
     tools-https:
-      rule: "Host(`tools.homelab`)"
+      rule: "Host(`tools.homelab.internal`)"
       entryPoints:
         - websecure
+      middlewares:
+        - authentik@file
       tls: {}
       service: tools-service
 
     pdf-http:
-      rule: "Host(`pdf.homelab`)"
+      rule: "Host(`pdf.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -144,14 +158,16 @@ http:
       service: pdf-service
 
     pdf-https:
-      rule: "Host(`pdf.homelab`)"
+      rule: "Host(`pdf.homelab.internal`)"
       entryPoints:
         - websecure
+      middlewares:
+        - authentik@file
       tls: {}
       service: pdf-service
 
     glances-http:
-      rule: "Host(`glances.homelab`)"
+      rule: "Host(`glances.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -159,9 +175,11 @@ http:
       service: glances-service
 
     glances-https:
-      rule: "Host(`glances.homelab`)"
+      rule: "Host(`glances.homelab.internal`)"
       entryPoints:
         - websecure
+      middlewares:
+        - authentik@file
       tls: {}
       service: glances-service
 

@@ -1,0 +1,32 @@
+services:
+  dockhand:
+    image: fnsys/dockhand:latest
+    container_name: dockhand
+    restart: unless-stopped
+    environment:
+      TZ: Australia/Sydney
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - dockhand_data:/app/data
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.dockhand-http.rule=Host(`dockhand.homelab.internal`)
+      - traefik.http.routers.dockhand-http.entrypoints=web
+      - traefik.http.routers.dockhand-http.middlewares=dockhand-https-redirect
+      - traefik.http.middlewares.dockhand-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.dockhand-https.rule=Host(`dockhand.homelab.internal`)
+      - traefik.http.routers.dockhand-https.entrypoints=websecure
+      - traefik.http.routers.dockhand-https.tls=true
+      - traefik.http.routers.dockhand-https.middlewares=authentik@file
+      - traefik.http.services.dockhand.loadbalancer.server.port=3000
+    networks:
+      - traefik
+
+volumes:
+  dockhand_data:
+
+networks:
+  traefik:
+    name: traefik
+    external: true

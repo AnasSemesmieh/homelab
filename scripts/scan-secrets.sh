@@ -12,6 +12,7 @@ matches="$(
     grep -RInE '(tskey-api-|ptr_|cfat_)' "${TARGET}" || true
     grep -RInE '(PlexOnlineToken|PlexOnlineMail|PlexOnlineUsername)="[^"]+"' "${TARGET}" || true
     grep -RInE 'WIREGUARD_PRIVATE_KEY:[[:space:]]*[A-Za-z0-9+/=]{20,}' "${TARGET}" || true
+    grep -RInE '^(AUTHENTIK_SECRET_KEY|PG_PASS|AUTHENTIK_BOOTSTRAP_PASSWORD|AUTHENTIK_BOOTSTRAP_TOKEN)=.+' "${TARGET}" || true
   } | grep -vE 'REDACTED|\{\{[[:space:]]*\.Config\.' || true
 )"
 

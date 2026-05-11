@@ -143,6 +143,7 @@ Key secrets you'll need:
 ✓ Arr stack API keys (Prowlarr, Radarr, Sonarr)
 ✓ Gluetun WireGuard private key (VPN provider)
 ✓ Immich database password
+✓ Authentik secret key, PG password, bootstrap password/token
 ```
 
 ### 3.2 Create Local Secrets File
@@ -180,6 +181,12 @@ export WIREGUARD_PRIVATE_KEY="<your-vpn-wireguard-private-key>"
 
 # Immich
 export IMMICH_DB_PASSWORD="<generate-strong-password>"
+
+# Authentik
+export AUTHENTIK_SECRET_KEY="<your-secret-key>"
+export AUTHENTIK_PG_PASS="<your-pg-password>"
+export AUTHENTIK_BOOTSTRAP_PASSWORD="<your-admin-password>"
+export AUTHENTIK_BOOTSTRAP_TOKEN="<your-api-token>"
 EOF
 
 # Secure permissions
@@ -209,6 +216,16 @@ sed -i.bak "s|key: REDACTED|key: $TAUTULLI_API_KEY|g" \
 # Inject Gluetun WireGuard private key
 sed -i "s|WIREGUARD_PRIVATE_KEY: REDACTED|WIREGUARD_PRIVATE_KEY: $WIREGUARD_PRIVATE_KEY|g" \
   configs/arrstack/docker-compose.yml
+
+# Inject Authentik secrets
+sed -i "s|^AUTHENTIK_SECRET_KEY=REDACTED|AUTHENTIK_SECRET_KEY=$AUTHENTIK_SECRET_KEY|" \
+  configs/authentik/.env
+sed -i "s|^PG_PASS=REDACTED|PG_PASS=$AUTHENTIK_PG_PASS|" \
+  configs/authentik/.env
+sed -i "s|^AUTHENTIK_BOOTSTRAP_PASSWORD=REDACTED|AUTHENTIK_BOOTSTRAP_PASSWORD=$AUTHENTIK_BOOTSTRAP_PASSWORD|" \
+  configs/authentik/.env
+sed -i "s|^AUTHENTIK_BOOTSTRAP_TOKEN=REDACTED|AUTHENTIK_BOOTSTRAP_TOKEN=$AUTHENTIK_BOOTSTRAP_TOKEN|" \
+  configs/authentik/.env
 
 # Verify injections worked
 echo "=== Verification ==="
@@ -380,9 +397,57 @@ nslookup traefik.homelab 127.0.0.1
 
 **✓ Validation Checkpoint:** DNS queries should resolve to correct IP.
 
+### 5.5 Start Authentik (SSO)
+
+Authentik must be running before any SSO-protected application.
+
+```bash
+cd ~/authentik
+
+# Verify .env has secrets rehydrated (not REDACTED)
+grep -E '^(AUTHENTIK_SECRET_KEY|PG_PASS|AUTHENTIK_BOOTSTRAP_PASSWORD|AUTHENTIK_BOOTSTRAP_TOKEN)=' .env
+
+docker compose up -d
+
+# Wait for database migration and startup
+sleep 30
+
+# Verify all 4 containers are healthy
+docker compose ps
+# Expected: postgresql, redis, server, worker — all running
+
+# Check server is responding
+curl -sI https://auth.homelab.internal 2>/dev/null | head -5
+```
+
+**✓ Validation Checkpoint:** Authentik web UI accessible at https://auth.homelab.internal. Log in with akadmin credentials.
+
+**Post-Startup SSO Configuration:**
+
+After Authentik is running on a fresh deploy, recreate the SSO providers:
+
+1. **Create proxy providers:**
+   - `homelab-forward-auth` — forward auth, cookie domain: `homelab.internal`
+   - `semesmieh-forward-auth` — forward auth, cookie domain: `semesmieh.com`
+
+2. **Create OAuth2 providers (if needed):**
+   - `portainer-oidc` — confidential client, redirect URIs for both domains
+
+3. **Create applications** for each protected service and bind to the appropriate provider
+
+4. **Verify forward auth middleware:**
+   ```bash
+   # Test that Traefik can reach Authentik's outpost
+   curl -sI http://authentik-server:9000/outpost.goauthentik.io/ping
+   ```
+
+> **Note:** The Traefik forward-auth middleware config (`traefik/dynamic/authentik.yaml`) is restored from backup. Only the Authentik-side provider/application objects need recreation.
+
 ---
 
 ## Step 6: Application Bring-up
+
+> **Important:** All applications below that use `authentik@file` or `authentik-external@file` middleware in Traefik will redirect to Authentik for login. Ensure Authentik (Step 5.5) is fully operational before proceeding.
 
 ### 6.1 Homepage (Dashboard)
 

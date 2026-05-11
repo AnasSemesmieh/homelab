@@ -1,13 +1,27 @@
 http:
   routers:
-    plex-file:
-      rule: "Host(`plex.homelab`)"
+    plex-http:
+      rule: "Host(`plex.homelab.internal`)"
       entryPoints:
         - web
-      service: plex-file
+      middlewares:
+        - plex-redirect-https
+      service: plex-service
+
+    plex-https:
+      rule: "Host(`plex.homelab.internal`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: plex-service
+
+  middlewares:
+    plex-redirect-https:
+      redirectScheme:
+        scheme: https
 
   services:
-    plex-file:
+    plex-service:
       loadBalancer:
         servers:
           - url: "http://192.168.20.69:32400"

@@ -14,18 +14,19 @@ services:
       PUID: 1000 
       PGID: 983  
       TZ: Australia/Sydney
-      HOMEPAGE_ALLOWED_HOSTS: "192.168.20.69:3000,100.93.254.86:3000,localhost:3000,127.0.0.1:3000,homepage.homelab:3000,homepage.homelab,homeassistant.homelab:8123,192.168.20.69:8123,100.93.254.86:8123"
+      HOMEPAGE_ALLOWED_HOSTS: "192.168.20.69:3000,100.93.254.86:3000,localhost:3000,127.0.0.1:3000,homepage.homelab.internal:3000,homepage.homelab.internal,homepage.semesmieh.com,homeassistant.homelab.internal:8123,192.168.20.69:8123,100.93.254.86:8123"
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik
-      - traefik.http.routers.homepage-http.rule=Host(`homepage.homelab`)
+      - traefik.http.routers.homepage-http.rule=Host(`homepage.homelab.internal`)
       - traefik.http.routers.homepage-http.entrypoints=web
       - traefik.http.routers.homepage-http.middlewares=homepage-https-redirect
       - traefik.http.middlewares.homepage-https-redirect.redirectscheme.scheme=https
       - traefik.http.routers.homepage-http.service=homepage
-      - traefik.http.routers.homepage-https.rule=Host(`homepage.homelab`)
+      - traefik.http.routers.homepage-https.rule=Host(`homepage.homelab.internal`)
       - traefik.http.routers.homepage-https.entrypoints=websecure
       - traefik.http.routers.homepage-https.tls=true
+      - traefik.http.routers.homepage-https.middlewares=authentik@file
       - traefik.http.routers.homepage-https.service=homepage
       - traefik.http.services.homepage.loadbalancer.server.port=3000
     networks:

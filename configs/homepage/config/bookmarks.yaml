@@ -21,7 +21,7 @@
 - Local Links:
     - Cockpit:
         - icon: mdi-server
-          href: https://cockpit.homelab
+          href: https://cockpit.homelab.internal
           description: System management interface
 
     - Router:
@@ -31,17 +31,17 @@
 
     - Dahua NVR:
         - icon: dahua.png
-          href: https://nvr.homelab
+          href: https://nvr.homelab.internal
           description: NVR   
 
     - IT Tools:
         - icon: it-tools-light.png
-          href: https://tools.homelab
+          href: https://tools.homelab.internal
           description: IT Tools (Local)
 
     - Stirling PDF:
         - icon: stirling-pdf.png
-          href: https://pdf.homelab
+          href: https://pdf.homelab.internal
           description: Stirling PDF Server
 
     

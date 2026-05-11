@@ -1,9 +1,11 @@
 http:
   routers:
     cockpit-https:
-      rule: "Host(`cockpit.homelab`)"
+      rule: "Host(`cockpit.homelab.internal`)"
       entryPoints:
         - websecure
+      middlewares:
+        - authentik@file
       tls: {}
       service: cockpit-service
 

@@ -1,0 +1,241 @@
+http:
+  routers:
+    # === Auth ===
+    auth-external-https:
+      rule: "Host(`auth.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: authentik-service
+
+    # === Apps & Services ===
+    homepage-external-https:
+      rule: "Host(`homepage.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: homepage-external
+
+    code-external-https:
+      rule: "Host(`code.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: code-service@file
+
+    portainer-external-https:
+      rule: "Host(`portainer.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: portainer-service@file
+
+    tautulli-external-https:
+      rule: "Host(`tautulli.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: tautulli-service@file
+
+    pihole-external-https:
+      rule: "Host(`pihole.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: pihole-external
+
+    traefik-external-https:
+      rule: "Host(`traefik.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: traefik-external
+
+    cockpit-external-https:
+      rule: "Host(`cockpit.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: cockpit-service@file
+
+    glances-external-https:
+      rule: "Host(`glances.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: glances-service@file
+
+    myspeed-external-https:
+      rule: "Host(`myspeed.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: myspeed-service@file
+
+    tools-external-https:
+      rule: "Host(`tools.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: tools-service@file
+
+    pdf-external-https:
+      rule: "Host(`stirling.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: pdf-service@file
+
+    # === Media Pipeline ===
+    qbittorrent-external-https:
+      rule: "Host(`qbittorrent.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: qbittorrent-external
+
+    radarr-external-https:
+      rule: "Host(`radarr.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: radarr-external
+
+    sonarr-external-https:
+      rule: "Host(`sonarr.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: sonarr-external
+
+    seerr-external-https:
+      rule: "Host(`seerr.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: seerr-external
+
+    prowlarr-external-https:
+      rule: "Host(`prowlarr.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: prowlarr-service@file
+
+    flaresolverr-external-https:
+      rule: "Host(`flaresolverr.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: flaresolverr-service@file
+
+    dockhand-external-https:
+      rule: "Host(`dockhand.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - authentik-external@file
+      tls: {}
+      service: dockhand-external
+
+    # === Excluded from SSO (own auth) ===
+    plex-external-https:
+      rule: "Host(`plex.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: plex-service@file
+
+    homeassistant-external-https:
+      rule: "Host(`homeassistant.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: homeassistant-service@file
+
+    nas-external-https:
+      rule: "Host(`nas.semesmieh.com`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: nas-service@file
+
+  services:
+    authentik-service:
+      loadBalancer:
+        servers:
+          - url: "http://authentik-server:9000"
+
+    homepage-external:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:3000"
+
+    pihole-external:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:8001"
+
+    traefik-external:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:8888"
+
+    qbittorrent-external:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:8080"
+
+    radarr-external:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:7878"
+
+    sonarr-external:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:8989"
+
+    seerr-external:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.20.69:5055"
+
+    dockhand-external:
+      loadBalancer:
+        servers:
+          - url: "http://dockhand:3000"

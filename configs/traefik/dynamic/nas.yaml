@@ -1,7 +1,7 @@
 http:
   routers:
     nas-http:
-      rule: "Host(`nas.homelab`)"
+      rule: "Host(`nas.homelab.internal`)"
       entryPoints:
         - web
       middlewares:
@@ -9,7 +9,7 @@ http:
       service: nas-service
 
     nas-https:
-      rule: "Host(`nas.homelab`)"
+      rule: "Host(`nas.homelab.internal`)"
       entryPoints:
         - websecure
       tls: {}

@@ -38,4 +38,15 @@ if [[ -f "${plex_prefs}" ]]; then
     "$plex_prefs"
 fi
 
+# Redact Authentik .env secrets if present.
+authentik_env="${TARGET}/authentik/.env"
+if [[ -f "${authentik_env}" ]]; then
+  sed -Ei \
+    -e 's#^(AUTHENTIK_SECRET_KEY=).*$#\1REDACTED#' \
+    -e 's#^(PG_PASS=).*$#\1REDACTED#' \
+    -e 's#^(AUTHENTIK_BOOTSTRAP_PASSWORD=).*$#\1REDACTED#' \
+    -e 's#^(AUTHENTIK_BOOTSTRAP_TOKEN=).*$#\1REDACTED#' \
+    "$authentik_env"
+fi
+
 echo "Redaction complete"

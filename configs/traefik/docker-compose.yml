@@ -22,14 +22,15 @@ services:
       TZ: Australia/Sydney
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik-http.rule=Host(`traefik.homelab`)
+      - traefik.http.routers.traefik-http.rule=Host(`traefik.homelab.internal`)
       - traefik.http.routers.traefik-http.entrypoints=web
       - traefik.http.routers.traefik-http.middlewares=traefik-https-redirect
       - traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https
       - traefik.http.routers.traefik-http.service=traefik
-      - traefik.http.routers.traefik-https.rule=Host(`traefik.homelab`)
+      - traefik.http.routers.traefik-https.rule=Host(`traefik.homelab.internal`)
       - traefik.http.routers.traefik-https.entrypoints=websecure
       - traefik.http.routers.traefik-https.tls=true
+      - traefik.http.routers.traefik-https.middlewares=authentik@file
       - traefik.http.routers.traefik-https.service=traefik
       - traefik.http.services.traefik.loadbalancer.server.port=8080
     networks:

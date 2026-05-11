@@ -27,8 +27,13 @@ tautulli/config/config.ini
 plex/docker-compose.yml
 plex/config/Library/Application Support/Plex Media Server/Preferences.xml
 traefik/docker-compose.yml
+traefik/dynamic/authentik.yaml
 traefik/dynamic/cockpit.yaml
+traefik/dynamic/external-services.yaml
 traefik/dynamic/homelab-services.yaml
 traefik/dynamic/nas.yaml
 traefik/dynamic/plex.yaml
 traefik/dynamic/tls.yaml
+authentik/docker-compose.yml
+authentik/.env
+dockhand/docker-compose.yml

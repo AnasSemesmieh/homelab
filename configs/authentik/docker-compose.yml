@@ -1,0 +1,114 @@
+services:
+  postgresql:
+    image: docker.io/library/postgres:16-alpine
+    container_name: authentik-postgresql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    volumes:
+      - database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: REDACTED
+      POSTGRES_USER: authentik
+      POSTGRES_DB: authentik
+    networks:
+      - authentik-internal
+
+  redis:
+    image: docker.io/library/redis:alpine
+    container_name: authentik-redis
+    command: --save 60 1 --loglevel warning
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    volumes:
+      - redis:/data
+    networks:
+      - authentik-internal
+
+  server:
+    image: ghcr.io/goauthentik/server:2026.2.2
+    container_name: authentik-server
+    restart: unless-stopped
+    command: server
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: REDACTED
+      AUTHENTIK_OUTPOSTS__PROXY_SESSION_BACKEND: redis
+      AUTHENTIK_BOOTSTRAP_PASSWORD: REDACTED
+      AUTHENTIK_BOOTSTRAP_TOKEN: REDACTED
+      AUTHENTIK_BOOTSTRAP_EMAIL: ${AUTHENTIK_BOOTSTRAP_EMAIL}
+    volumes:
+      - ./media:/media
+      - ./custom-templates:/templates
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.authentik-http.rule=Host(`auth.homelab.internal`)
+      - traefik.http.routers.authentik-http.entrypoints=web
+      - traefik.http.routers.authentik-http.middlewares=authentik-https-redirect
+      - traefik.http.middlewares.authentik-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.authentik-http.service=authentik
+      - traefik.http.routers.authentik-https.rule=Host(`auth.homelab.internal`)
+      - traefik.http.routers.authentik-https.entrypoints=websecure
+      - traefik.http.routers.authentik-https.tls=true
+      - traefik.http.routers.authentik-https.service=authentik
+      - traefik.http.services.authentik.loadbalancer.server.port=9000
+    networks:
+      - authentik-internal
+      - traefik
+
+  worker:
+    image: ghcr.io/goauthentik/server:2026.2.2
+    container_name: authentik-worker
+    restart: unless-stopped
+    command: worker
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: REDACTED
+      AUTHENTIK_OUTPOSTS__PROXY_SESSION_BACKEND: redis
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./media:/media
+      - ./custom-templates:/templates
+      - ./certs:/certs
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - authentik-internal
+
+volumes:
+  database:
+  redis:
+
+networks:
+  authentik-internal:
+    driver: bridge
+  traefik:
+    name: traefik
+    external: true

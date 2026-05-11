@@ -7,13 +7,13 @@
 - Apps & Services:
     - Plex:
         icon: plex.png
-        href: https://plex.homelab/web
+        href: https://plex.homelab.internal/web
         description: Media server
         server: my-docker
         container: plex
         widget:
             type: plex
-            url: http://plex.homelab
+            url: http://192.168.20.69:32400
             key: REDACTED
             # -   type: tautulli
             #     url: http://192.168.20.69:8181
@@ -24,7 +24,7 @@
 
     - Plex Stats (Tautulli):
         icon: tautulli.png
-        href: https://tautulli.homelab
+        href: https://tautulli.homelab.internal
         description: Plex media server stats
         server: my-docker
         container: tautulli
@@ -38,21 +38,21 @@
 
     - Home Assistant:
         icon: home-assistant.png
-        href: https://homeassistant.homelab
+        href: https://homeassistant.homelab.internal
         description: Smart home automation (Tailscale)
         server: my-docker
         container: homeassistant
     
     - Homepage:
         icon: homepage.png
-        href: https://homepage.homelab
+        href: https://homepage.homelab.internal
         description: Dashboard container status via Docker
         server: my-docker
         container: homepage
 
     - Code Server:
         icon: code-server.png
-        href: https://code.homelab
+        href: https://code.homelab.internal
         description: Remote VS Code workspace
         server: my-docker
         container: code-server
@@ -71,7 +71,7 @@
 
     - Scrypted:
         icon: scrypted.png
-        href: https://scrypted.homelab
+        href: https://scrypted.homelab.internal
         description: Home automation video integration
         server: my-docker
         container: scrypted
@@ -106,7 +106,7 @@
 - Media Pipeline:
     - qBittorrent:
         icon: qbittorrent.png
-        href: https://qbittorrent.homelab
+        href: https://qbittorrent.homelab.internal
         description: Torrent client
         server: my-docker
         container: qbittorrent
@@ -120,7 +120,7 @@
             
     - Seerr:
         icon: seerr.png
-        href: https://seerr.homelab
+        href: https://seerr.homelab.internal
         description: Media requests
         server: my-docker
         container: seerr
@@ -131,7 +131,7 @@
     
     - Radarr:
         icon: radarr.png
-        href: https://radarr.homelab
+        href: https://radarr.homelab.internal
         description: Movie management
         server: my-docker
         container: radarr
@@ -142,7 +142,7 @@
 
     - Sonarr:
         icon: sonarr.png
-        href: https://sonarr.homelab
+        href: https://sonarr.homelab.internal
         description: TV management
         server: my-docker
         container: sonarr
@@ -154,7 +154,7 @@
     
     - Prowlarr:
         icon: prowlarr.png
-        href: https://prowlarr.homelab
+        href: https://prowlarr.homelab.internal
         description: Indexer management
         server: my-docker
         container: prowlarr
@@ -165,7 +165,7 @@
     
     - MySpeedTest:
         icon: myspeed.png
-        href: https://myspeed.homelab
+        href: https://myspeed.homelab.internal
         description: Network speed test
         widget:
             type: myspeed
@@ -181,7 +181,7 @@
 
     - FlareSolverr:
         icon: flaresolverr.png
-        href: https://flaresolverr.homelab
+        href: https://flaresolverr.homelab.internal
         description: Cloudflare challenge solver
         server: my-docker
         container: flaresolverr
@@ -192,18 +192,18 @@
 - Infrastructure:
     - Synology NAS (DS416play):
         icon: synology.png
-        href: https://nas.homelab
+        href: https://nas.homelab.internal
         description: Storage and Docker host
         widget:
             type: diskstation
-            url: https://nas.homelab
+            url: https://192.168.20.2:8443
             username: REDACTED
             password: REDACTED
             volume: volume_2 # optional to switch to a specific volume, otherwise will show volume 1
     
     - Info:
         icon: glances.png
-        href: https://glances.homelab
+        href: https://glances.homelab.internal
         server: host
         widget:
             type: glances
@@ -214,7 +214,7 @@
 
     - CPU:
         icon: glances.png
-        href: https://glances.homelab
+        href: https://glances.homelab.internal
         server: host
         widget:
             type: glances
@@ -225,13 +225,13 @@
     
     - Portainer:
         icon: portainer.png
-        href: https://portainer.homelab
+        href: https://portainer.homelab.internal
         description: Container management
         server: my-docker
         container: portainer
         widget:
             type: portainer
-            url: https://portainer.homelab
+            url: https://192.168.20.69:9443
             env: 3
             #kubernetes: true # optional, defaults to false
             key: REDACTED
@@ -240,7 +240,7 @@
 
     - Memory:
         icon: glances.png
-        href: https://glances.homelab
+        href: https://glances.homelab.internal
         server: host
         widget:
             type: glances
@@ -250,7 +250,7 @@
 
     - Network:
         icon: glances.png
-        href: https://glances.homelab
+        href: https://glances.homelab.internal
         server: host
         widget:
             type: glances
@@ -264,7 +264,7 @@
     
     - Traefik:
         icon: mdi-transit-connection-variant
-        href: https://traefik.homelab
+        href: https://traefik.homelab.internal
         description: Reverse proxy and dashboard
         server: my-docker
         container: traefik
@@ -274,7 +274,7 @@
 
     - Pi-hole:
         icon: pi-hole.png
-        href: https://pihole.homelab/admin
+        href: https://pihole.homelab.internal/admin
         description: Network-wide adblocker
         server: my-docker
         container: pihole
@@ -299,7 +299,7 @@
 
     - TailScale (homelab):
         icon: tailscale.png
-        href: https://nas.homelab/webman/3rdparty/Tailscale/index.cgi/
+        href: https://nas.homelab.internal/webman/3rdparty/Tailscale/index.cgi/
         server: my-docker
         container: tailscale
         widgets:
