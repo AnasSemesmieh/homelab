@@ -37,4 +37,7 @@ traefik/dynamic/tls.yaml
 authentik/docker-compose.yml
 authentik/.env
 dockhand/docker-compose.yml
+vaultwarden/docker-compose.yml
+vaultwarden/docker-compose.nas-standby.yml
+vaultwarden/backup-to-nas.sh
 code-server/config/.config/code-server/config.yaml

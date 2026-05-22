@@ -1,0 +1,25 @@
+# Vaultwarden NAS Active Standby
+# This compose file runs on the NAS as a warm standby instance.
+# Data is synced nightly from the primary (Optiplex) via backup-to-nas.sh.
+# To failover: start this container and update Cloudflare Tunnel to point here.
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    volumes:
+      - /volume1/docker/vaultwarden/data:/data
+    environment:
+      DOMAIN: "https://vault.semesmieh.com"
+      PUSH_ENABLED: "true"
+      PUSH_INSTALLATION_ID: "${PUSH_INSTALLATION_ID}"
+      PUSH_INSTALLATION_KEY: "${PUSH_INSTALLATION_KEY}"
+      SMTP_HOST: smtp.gmail.com
+      SMTP_FROM: "${SMTP_FROM}"
+      SMTP_PORT: "587"
+      SMTP_SECURITY: starttls
+      SMTP_USERNAME: "${SMTP_USERNAME}"
+      SMTP_PASSWORD: "${SMTP_APP_PASSWORD}"

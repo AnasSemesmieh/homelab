@@ -152,6 +152,41 @@ git push origin main
 
 ---
 
+## Vaultwarden Database Backup
+
+In addition to the config-file backup pipeline above, Vaultwarden has its own dedicated backup job that safely syncs the live SQLite database and attachments to the NAS every night.
+
+### Schedule
+
+**Time:** 03:00 UTC (daily — runs before the config backup at 03:25)  
+**Cron entry:**
+```bash
+0 3 * * * /home/anas/vaultwarden/backup-to-nas.sh >> /home/anas/vaultwarden/backup.log 2>&1
+```
+
+### How It Works
+
+1. **Safe SQLite snapshot** — Calls `docker exec vaultwarden /vaultwarden backup` which uses SQLite's built-in backup API to produce a consistent `db_YYYYMMDD_HHMMSS.sqlite3` file (no WAL corruption risk).
+2. **Clean NAS destination** — Removes any stale `-wal` / `-shm` files on the NAS mount to prevent SQLite from replaying an old journal.
+3. **Copy database** — Places the clean backup as `db.sqlite3` on the NAS.
+4. **Rsync attachments & config** — Syncs everything else (attachments, `config.json`, RSA keys) while excluding database files and the icon cache.
+5. **Cleanup** — Removes the timestamped backup file from the local host.
+
+### NAS Active Standby
+
+The NAS holds a ready-to-run Vaultwarden instance (`docker-compose.nas-standby.yml`). To failover:
+
+1. Start the container on the NAS: `docker compose -f docker-compose.nas-standby.yml up -d`
+2. Update the Cloudflare Tunnel to route `vault.semesmieh.com` to the NAS IP.
+
+Data is at most 24 hours stale (last nightly sync).
+
+### Script Location
+
+See [`configs/vaultwarden/backup-to-nas.sh`](../configs/vaultwarden/backup-to-nas.sh) for the full script.
+
+---
+
 ## Setup Instructions
 
 ### 1. Install Cron Jobs on Host
