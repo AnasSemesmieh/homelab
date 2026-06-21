@@ -1,7 +1,21 @@
 # Homelab Backup Repository
 
-This repository is the source of truth for homelab configuration backups and disaster recovery.
-It tracks curated config files and automation scripts, while intentionally excluding runtime state, media, logs, databases, and raw credentials.
+> [!WARNING]
+> **This repository is deprecated and no longer maintained.**
+>
+> It was built for an earlier single-host Docker Compose setup running on bare metal / a single Ubuntu VM.
+> The homelab has since been fully migrated to **Proxmox VE** with dedicated **LXC containers per service**,
+> and backups are now handled natively by **Proxmox Backup Server (CT100 — PBS)** with scheduled snapshot jobs,
+> offsite NAS targets, and automated prune/verify policies.
+>
+> This repo is preserved as a historical reference. The runbooks and scripts may still be useful as a starting
+> point for Docker-based homelabs, but they no longer reflect the current production setup.
+>
+> **Read about the migration and current architecture:**
+> - [Bare-Metal to VM: A Pragmatic P2V Migration to Proxmox](https://anas.semesmieh.com/blog/posts/homelab-p2v-proxmox-migration)
+> - [Decomposing the Monolith: Per-Service LXCs on Proxmox](https://anas.semesmieh.com/blog/posts/homelab-proxmox-lxc-decomposition)
+> - [Finishing the Decomposition: Every Service Gets Its Own Container](https://anas.semesmieh.com/blog/posts/homelab-full-lxc-migration)
+> - [Homelab Disaster Recovery in Under an Hour](https://anas.semesmieh.com/blog/posts/homelab-disaster-recovery) *(updated for Proxmox PBS)*
 
 ## What This Repo Does
 
