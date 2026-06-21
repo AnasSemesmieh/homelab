@@ -108,3 +108,31 @@ Current services include (high level):
 - Do not commit unredacted secrets.
 - Run `./scripts/scan-secrets.sh` before pushing manual changes.
 - Use docs first: the README is intentionally concise.
+
+---
+
+## Related Blog Posts
+
+The design decisions behind this repository are documented on my portfolio blog:
+
+| Topic | Post |
+|-------|------|
+| Automated config backup with secret redaction | [Automated Config Backup with Secret Redaction](https://anas.semesmieh.com/blog/posts/homelab-backup-automation) |
+| Full disaster recovery runbook | [Homelab Disaster Recovery in Under an Hour](https://anas.semesmieh.com/blog/posts/homelab-disaster-recovery) |
+| Secrets lifecycle — redact, scan, rehydrate | [Secrets Management for Homelabs](https://anas.semesmieh.com/blog/posts/homelab-secrets-management) |
+| Docker Compose stack overview | [Docker Compose All The Things](https://anas.semesmieh.com/blog/posts/homelab-docker-compose-stack) |
+| Starting point — the full homelab journey | [My Home Lab Journey: Start Here](https://anas.semesmieh.com/blog/posts/homelab-start-here) |
+| Proxmox LXC decomposition | [Decomposing the Monolith: Per-Service LXCs on Proxmox](https://anas.semesmieh.com/blog/posts/homelab-proxmox-lxc-decomposition) |
+| P2V migration to Proxmox | [Bare-Metal to VM: A Pragmatic P2V Migration to Proxmox](https://anas.semesmieh.com/blog/posts/homelab-p2v-proxmox-migration) |
+| Vaultwarden self-hosted passwords | [Self-Hosting Vaultwarden: Ditching 1Password](https://anas.semesmieh.com/blog/posts/homelab-vaultwarden-self-hosted-passwords) |
+| SSO with Authentik | [Single Sign-On for Homelabs: Authentik + Traefik](https://anas.semesmieh.com/blog/posts/homelab-sso-authentik) |
+
+---
+
+## About the Author
+
+Built and maintained by **[Anas Semesmieh](https://anas.semesmieh.com)** — Engineering Manager and Solutions Architect based in Sydney, Australia, specialising in platform engineering, cloud-native infrastructure, and DevSecOps.
+
+- 🌐 Portfolio & Blog: [anas.semesmieh.com](https://anas.semesmieh.com)
+- 💼 LinkedIn: [linkedin.com/in/anassemesmieh](https://www.linkedin.com/in/anassemesmieh)
+- 🐙 GitHub: [github.com/AnasSemesmieh](https://github.com/AnasSemesmieh)

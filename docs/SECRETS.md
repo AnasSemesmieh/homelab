@@ -275,10 +275,7 @@ curl -s http://glances:61208/api/3/all | jq .
 **Format:** PEM-encoded certificate and private key  
 **Example (masked):**
 ```
------BEGIN PRIVATE KEY-----
-MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC...
-(base64 content)
------END PRIVATE KEY-----
+[REDACTED PRIVATE KEY]
 ```
 
 **How to Source:**
@@ -501,7 +498,7 @@ api_key = REDACTED
 **Location:** Not in backup (generated at runtime or stored in `.storage/auth_token.json`)  
 **Purpose:** Allow external services to access Home Assistant API  
 **Format:** Bearer token (JWT-like, typically 100+ chars)  
-**Example (masked):** `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+**Example (masked):** `Bearer eyJhbG...VCJ9...`
 
 **How to Source:**
 
@@ -770,3 +767,21 @@ The restore compose stack can automatically rehydrate secrets if you prepare a `
 - [Traefik SSL/TLS Configuration](https://doc.traefik.io/traefik/https/overview/)
 - [Home Assistant API Authentication](https://developers.home-assistant.io/docs/auth_api_tutorial)
 - [Authentik Configuration](https://docs.goauthentik.io/docs/installation/configuration)
+
+---
+
+## Related Blog Posts
+
+- [Secrets Management for Homelabs](https://anas.semesmieh.com/blog/posts/homelab-secrets-management) — automated redaction, leak scanning, and rehydration workflows
+- [Self-Hosting Vaultwarden: Ditching 1Password](https://anas.semesmieh.com/blog/posts/homelab-vaultwarden-self-hosted-passwords) — how passwords are stored and managed in this homelab
+- [Automated Config Backup with Secret Redaction](https://anas.semesmieh.com/blog/posts/homelab-backup-automation) — how secrets are redacted before every commit
+
+---
+
+## About the Author
+
+Written by **[Anas Semesmieh](https://anas.semesmieh.com)** — Engineering Manager and Solutions Architect based in Sydney, Australia, specialising in platform engineering, cloud-native infrastructure, and DevSecOps.
+
+- 🌐 Portfolio & Blog: [anas.semesmieh.com](https://anas.semesmieh.com)
+- 💼 LinkedIn: [linkedin.com/in/anassemesmieh](https://www.linkedin.com/in/anassemesmieh)
+- 🐙 GitHub: [github.com/AnasSemesmieh](https://github.com/AnasSemesmieh)

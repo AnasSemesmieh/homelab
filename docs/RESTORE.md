@@ -247,7 +247,7 @@ UPLOAD_LOCATION=./library
 DB_PASSWORD=$IMMICH_DB_PASSWORD
 DB_USERNAME=postgres
 DB_NAME=immich
-DB_URL=postgresql://postgres:${DB_PASSWORD}@immich-db:5432/${DB_NAME}
+DB_URL=postgresql://postgres:***@immich-db:5432/${DB_NAME}
 EOF
 
 # Home Assistant secrets.yaml (example)
@@ -823,3 +823,21 @@ git checkout main
 - [docs/FRESH-INSTALL.md](FRESH-INSTALL.md) — Full bootstrapping guide
 - [Docker Compose Documentation](https://docs.docker.com/compose/)
 - [Git Recovery Guide](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified)
+
+---
+
+## Related Blog Posts
+
+- [Homelab Disaster Recovery in Under an Hour](https://anas.semesmieh.com/blog/posts/homelab-disaster-recovery) — full DR runbook using Git-backed configs
+- [Automated Config Backup with Secret Redaction](https://anas.semesmieh.com/blog/posts/homelab-backup-automation) — how the backup that feeds this restore was built
+- [Secrets Management for Homelabs](https://anas.semesmieh.com/blog/posts/homelab-secrets-management) — secret rehydration and injection
+
+---
+
+## About the Author
+
+Written by **[Anas Semesmieh](https://anas.semesmieh.com)** — Engineering Manager and Solutions Architect based in Sydney, Australia, specialising in platform engineering, cloud-native infrastructure, and DevSecOps.
+
+- 🌐 Portfolio & Blog: [anas.semesmieh.com](https://anas.semesmieh.com)
+- 💼 LinkedIn: [linkedin.com/in/anassemesmieh](https://www.linkedin.com/in/anassemesmieh)
+- 🐙 GitHub: [github.com/AnasSemesmieh](https://github.com/AnasSemesmieh)

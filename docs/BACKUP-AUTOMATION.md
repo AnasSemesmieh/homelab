@@ -669,3 +669,23 @@ done
 - [Git Documentation](https://git-scm.com/doc)
 - [Docker Compose Documentation](https://docs.docker.com/compose/)
 - [SSH & Git Integration](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
+
+---
+
+## Related Blog Posts
+
+These posts cover the thinking behind this automation setup in detail:
+
+- [Automated Config Backup with Secret Redaction](https://anas.semesmieh.com/blog/posts/homelab-backup-automation) — the full pipeline: sync, redact, scan, commit, push
+- [Secrets Management for Homelabs](https://anas.semesmieh.com/blog/posts/homelab-secrets-management) — secrets lifecycle, redaction patterns, and rehydration
+- [Homelab Disaster Recovery in Under an Hour](https://anas.semesmieh.com/blog/posts/homelab-disaster-recovery) — how backup feeds into a full DR runbook
+
+---
+
+## About the Author
+
+Written by **[Anas Semesmieh](https://anas.semesmieh.com)** — Engineering Manager and Solutions Architect based in Sydney, Australia, specialising in platform engineering, cloud-native infrastructure, and DevSecOps.
+
+- 🌐 Portfolio & Blog: [anas.semesmieh.com](https://anas.semesmieh.com)
+- 💼 LinkedIn: [linkedin.com/in/anassemesmieh](https://www.linkedin.com/in/anassemesmieh)
+- 🐙 GitHub: [github.com/AnasSemesmieh](https://github.com/AnasSemesmieh)

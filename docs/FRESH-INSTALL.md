@@ -557,7 +557,7 @@ UPLOAD_LOCATION=./library
 DB_PASSWORD=<generate-strong-password>
 DB_USERNAME=postgres
 DB_NAME=immich
-DB_URL=postgresql://postgres:${DB_PASSWORD}@immich-db:5432/${DB_NAME}
+DB_URL=postgresql://postgres:***@immich-db:5432/${DB_NAME}
 EOF
 chmod 600 .env
 
@@ -798,3 +798,26 @@ git push origin main --force
 - [Pi-hole Documentation](https://docs.pi-hole.net/)
 
 For service-specific troubleshooting, see individual documentation links in each service's README.
+
+---
+
+## Related Blog Posts
+
+These posts walk through the journey that led to this fresh-install guide:
+
+- [My Home Lab Journey: Start Here](https://anas.semesmieh.com/blog/posts/homelab-start-here) — the original single-host Docker setup
+- [Docker Compose All The Things](https://anas.semesmieh.com/blog/posts/homelab-docker-compose-stack) — running 10+ services on one host
+- [Bare-Metal to VM: A Pragmatic P2V Migration to Proxmox](https://anas.semesmieh.com/blog/posts/homelab-p2v-proxmox-migration) — moving from bare-metal to Proxmox
+- [Decomposing the Monolith: Per-Service LXCs on Proxmox](https://anas.semesmieh.com/blog/posts/homelab-proxmox-lxc-decomposition) — decomposing into dedicated LXC containers
+- [Single Sign-On for Homelabs: Authentik + Traefik](https://anas.semesmieh.com/blog/posts/homelab-sso-authentik) — SSO across all services with Authentik
+- [Xcaddy + Cloudflare Tunnel + AdGuard Home](https://anas.semesmieh.com/blog/posts/homelab-xcaddy-cloudflare-tunnel-adguard) — simplified homelab edge setup
+
+---
+
+## About the Author
+
+Written by **[Anas Semesmieh](https://anas.semesmieh.com)** — Engineering Manager and Solutions Architect based in Sydney, Australia, specialising in platform engineering, cloud-native infrastructure, and DevSecOps.
+
+- 🌐 Portfolio & Blog: [anas.semesmieh.com](https://anas.semesmieh.com)
+- 💼 LinkedIn: [linkedin.com/in/anassemesmieh](https://www.linkedin.com/in/anassemesmieh)
+- 🐙 GitHub: [github.com/AnasSemesmieh](https://github.com/AnasSemesmieh)
